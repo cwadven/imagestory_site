@@ -1,0 +1,44 @@
+<!-- 댓글 내용 -->
+{% if comment %}
+{% if margin %}
+<div class="media" style="margin-left: -32px; margin-top: 7px;"> <!-- 아주 큰 p -->
+{% else %}
+<div class="media ml-0"> <!-- 아주 큰 p -->
+{% endif %}
+<img class="mr-2" alt={{comment.author.Name}} style="border-radius: 5px;" width="50" height="50" src="{% if comment.author.image %}{{comment.author.image.url}}{% else %}https://image.flaticon.com/icons/svg/634/634741.svg{% endif %}" alt="...">
+<div class="media-body">
+    <em style="font-family: Arial, Helvetica, sans-serif;">{{comment.created_at|date:"Y-m-d H:i"}}</em>
+    {% if request.user.username == comment.author.user.username %}
+    <a style="color:#f83f3f;cursor:pointer;float:right" onclick="delete_comment('{{comment.id}}');">의견 삭제</a>
+    {% endif %}
+  <h5 class="mt-0">{{comment.author.nickname}}</h5>
+  {{comment.body}}
+<div>
+
+</div>
+
+<!-- 댓글 대댓글 작성 -->
+{% if user.is_authenticated %}
+<div><input id="checkBox{{comment.id}}" type="checkbox" name="re_comment" value="답글" onclick="re_comment(this, 're_comment{{comment.id}}')"> 답글달기</div>
+<div style="display: none;" id=re_comment{{comment.id}}>
+<form action="{% url 'board:recomment_write' get_board.category.board_name get_board.id comment.id %}" method="post">
+{% csrf_token %}
+<div class="input-group mb-3">
+    {{ commentform.as_table }}
+    <div class="input-group-append">
+      <input class="btn btn-outline-secondary" type="submit" value="작성"/>
+    </div>
+</div>
+</form>
+</div>
+{% endif %}
+
+{% for re_comment in comment.comment_set.all %}
+    {%with margin="1" comment=re_comment template_name="comments.html" %}
+        {%include template_name%}
+    {%endwith%}  
+{% endfor %}
+
+</div>
+</div>
+{% endif %}
