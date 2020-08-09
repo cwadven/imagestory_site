@@ -13,6 +13,6 @@ urlpatterns = [
     path('area_layer/', views.area_layer, name='area_layer'),
     path('area_modify/', views.area_modify, name='area_modify'),
     path('area_delete/', views.area_delete, name='area_delete'),
-    path('alert/', views.alert, name='alert'),
+    path('alert_info/', views.alert_info, name='alert_info'),
     path('mypage/', views.mypage, name='mypage'),
 ]

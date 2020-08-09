@@ -28,8 +28,8 @@ def area_modify(request):
 def area_delete(request):
     return render(request, "area_delete.html", {})
 
-def alert(request):
-    return render(request, "alert.html", {})
+def alert_info(request):
+    return render(request, "alert_info.html", {})
 
 def mypage(request):
     return render(request, "mypage.html", {})
