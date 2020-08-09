@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'board',
     'category',
     'account',
+    'tutorial',
 ]
 
 SITE_ID = 1
