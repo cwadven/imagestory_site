@@ -25,7 +25,13 @@
         <h1>알림<a style="float:right" class="btn btn-dark" href="{% url 'tutorial:tutorial_list' %}">📲게시글나가기</a></h1>
         <hr>
         <div style="text-align: center;">
-            <h3>준비중</h3>
+            <h3>1. 로그인 후 최근 알림 확인</h3>
+            <h5>(노랑색 : 최신 알림 있음)<br>(투명 : 최신 알림 없음)</h5>
+            <img width="80%" src="{% static 'tutorial/alert/alert_1.png' %}"/>
+            <hr style="border-style: dashed;border-color: black;">
+            <h3>2. (마이페이지)알림 페이지</h3>
+            <h5>게시글을 눌러서 확인하면 확인 처리가 된다!<br>아닐 경우 NEW이다</h5>
+            <img width="80%" src="{% static 'tutorial/alert/alert_2.png' %}"/>
         </div>
     </div>
 </body>
