@@ -33,3 +33,6 @@ def alert_info(request):
 
 def mypage(request):
     return render(request, "mypage.html", {})
+
+def auth_info(request):
+    return render(request, "auth_info.html", {})

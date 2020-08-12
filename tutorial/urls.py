@@ -15,4 +15,5 @@ urlpatterns = [
     path('area_delete/', views.area_delete, name='area_delete'),
     path('alert_info/', views.alert_info, name='alert_info'),
     path('mypage/', views.mypage, name='mypage'),
+    path('auth_info/', views.auth_info, name='auth_info'),
 ]
