@@ -27,6 +27,7 @@
     <h4 style="text-align: center;">권한 있는 게시글</h4>
     <hr>
         {% for authboard in authboards %}
+        <div style="text-align:center;">
         {% if authboard.secure == 'private' %}<span class="badge badge-pill badge-dark">비공개글</span>{% endif %}{% if authboard.group.count %}🤼협동{% endif %}
         <p><h3>{{authboard.short_title}}</h3><a href="/board/detail/{{authboard.category.board_name}}/{{authboard.id}}">게시글 보러가기</a></p>
         <p>
@@ -35,6 +36,7 @@
         </p>
         <div>
             {% if authboard.group.count %}권한 : {% for i in authboard.group.all %}<span class="badge badge-primary">{{i.nickname}}</span> {% endfor %}{% endif %}
+        </div>
         </div>
         <hr>
         {% endfor %}

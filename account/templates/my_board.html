@@ -42,7 +42,7 @@
                     }
                 }
             },
-            error: function () { 
+            error: function () {
                 if (region == "nickname"){
                     $('#nickname_check'+id).text("닉네임을 입력해주세요");
                     nickname_check = false;
@@ -71,7 +71,7 @@
                     }
                 }
             },
-            error: function () { 
+            error: function () {
                 if (region == "nickname"){
                     $('#nickname_check'+id).text("닉네임을 입력해주세요");
                     nickname_check = false;
@@ -86,8 +86,26 @@
         {% include 'navbar.html' %}
         <h2 style="text-align: center;"><a href="/account/profile">{{user.profile.nickname}} 페이지</a></h2>
     <h4 style="text-align: center;">나의 게시글 및 권한관리</h4>
+    <div style="text-align: center;">
+    <form method="GET" style="text-align:right;display:inline-block;vertical-align: middle;" action="{% url 'account:my_board' %}">
+        <div class="input-group">
+            <select name="search_option" class="custom-select" id="inputGroupSelect01">
+                <option value="title_info" selected>제목+내용</option>
+                <option value="title">제목</option>
+                <option value="info">내용</option>
+            </select>
+            <div class="input-group-append">
+            <input placeholder="검색하기" style="width: 130px;" type="text" class="form-control" name="search">
+            </div>
+            <div class="input-group-append">
+                <input type="submit" value="🔍">
+            </div>
+        </div>
+    </form>
+    </div>
     <hr>
         {% for myboard in myboards %}
+        <div style="text-align:center;">
         {% if myboard.secure == 'private' %}<span class="badge badge-pill badge-dark">비공개글</span>{% endif %}{% if myboard.group.count %}🤼협동{% endif %}
         <p><h3>{{myboard.short_title}}</h3><a href="/board/detail/{{myboard.category.board_name}}/{{myboard.id}}">게시글 보러가기</a></p>
         <p>
@@ -102,6 +120,7 @@
         <input class="btn btn-primary btn-sm" type="button" value="권한추가" onclick="overlap($('#nickname_id{{myboard.id}}').val(), 'nickname', '{{myboard.id}}');">
         <input class="btn btn-danger btn-sm" type="button" value="권한제거" onclick="delap($('#nickname_id{{myboard.id}}').val(), 'nickname', '{{myboard.id}}');">
         <span id="nickname_check{{myboard.id}}"></span>
+        </div>
         </div>
         <hr>
         {% endfor %}

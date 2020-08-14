@@ -16,6 +16,8 @@ from django.core import serializers
 
 from django.urls import reverse
 
+from django.db.models import Q
+
 # Create your views here.
 def login(request):
     if request.method == "POST":
@@ -29,7 +31,7 @@ def login(request):
         else:
             messages.info(request, "아이디 혹은 비밀번호에 문제가 있습니다!")
             return redirect(request.path+"?next="+next_page)
-    else:  
+    else:
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form, })
 
@@ -116,7 +118,7 @@ def ajax(request, value, region):
 
 #알람이 되는 ajax!
 @login_required(login_url='/')
-def notice_ajax(request): 
+def notice_ajax(request):
     if request.is_ajax():
         getProfile = Profile.objects.get(user__username=request.user)
         comment_a = Commentalert.objects.get(profile=getProfile)
@@ -164,7 +166,29 @@ def bookmark_board(request):
 #내가 쓴글
 @login_required(login_url='/')
 def my_board(request):
-    myboards = request.user.profile.board_set.filter(post__isnull=True).order_by("-created_at")
+
+    #검색 기능 추가
+    search = request.GET.get("search", "")
+
+    #제목, 내용, 글쓴이 (콤보상자 이용)
+    search_info = request.GET.get("search_option", "")
+
+    # root 게시글만 가져오기
+    myboards = request.user.profile.board_set.filter(post__isnull=True)
+
+    if search:
+        #제목으로 찾기
+        if search_info == "title":
+            myboards = myboards.filter(title__contains=search).order_by("-created_at")
+        #내용으로 찾기
+        elif search_info == "info":
+            myboards = myboards.filter(information__contains=search).order_by("-created_at")
+        #제목+내용으로 찾기
+        else:
+            myboards = myboards.filter(Q(title__contains=search) | Q(information__contains=search)).order_by("-created_at")
+    else:
+        myboards = myboards.order_by("-created_at")
+
     request.session['page'] = 'my_board'
     return render(request, "my_board.html", {"myboards":myboards})
 

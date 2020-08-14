@@ -27,7 +27,7 @@
     <h4 style="text-align: center;">북마크 게시글</h4>
     <hr>
         {% for bookmark in user.profile.bookmark_set.all %}
-
+        <div style="text-align:center;">
         {% if bookmark.post.post %}
             <p>
                 {% include "route2.html" %} > 🔹{{bookmark.post.title}}
@@ -43,6 +43,7 @@
             <em>{{bookmark.created_at|date:"Y-m-d H:i"}}</em>
             작성자 : {{bookmark.post.author.nickname}}
         </p>
+        </div>
         <hr>
         {% endfor %}
     </div>
