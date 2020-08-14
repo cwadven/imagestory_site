@@ -25,10 +25,29 @@
     <div class="container-fluid">
         <!-- 검색하기 만들기 -->
         {% include 'navbar.html' %}
-        <h1 style="display:contents">{{categoryname.showing_name}}</h1>
+        <h1 style="display:contents"><a style="text-decoration: none;" href="{% url 'board:main' board_name %}">{{categoryname.showing_name}}</a></h1>
+            <hr style="border-style: dashed;">
+            <div style="text-align: right;">
+            <form method="GET" style="text-align:right;display:inline-block;vertical-align: middle;" action="{% url 'board:main' board_name %}">
+                <div class="input-group">
+                    <select name="search_option" class="custom-select" id="inputGroupSelect01">
+                        <option value="title_info" selected>제목+내용</option>
+                        <option value="title">제목</option>
+                        <option value="info">내용</option>
+                        <option value="user">사용자</option>
+                    </select>
+                    <div class="input-group-append">
+                    <input style="width: 130px;" type="text" class="form-control" name="search">
+                    </div>
+                    <div class="input-group-append">
+                        <input type="submit" value="🔍">
+                    </div>
+                </div>
+            </form>
             {% if user.is_authenticated %}
-                <a class="btn btn-warning" style="float:right;" href="{% url 'board:root_write' board_name %}">✏글쓰기</a>
+                <a class="btn btn-warning" href="{% url 'board:root_write' board_name %}">✏글쓰기</a>
             {% endif %}
+            </div>
             <hr>
             {% for board in all_board %}
             {% if board.secure == "public"%}

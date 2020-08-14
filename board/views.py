@@ -8,11 +8,37 @@ import json
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 from django.urls import reverse
+from django.db.models import Q
 
 # Create your views here.
 def main(request, board_name):
     categoryname = Category.objects.get(board_name=board_name)
-    all_board = Board.objects.filter(post=None, category__board_name=board_name).order_by("-created_at") # root 게시글만 가져오기
+
+    #검색 기능 추가
+    search = request.GET.get("search", "")
+    
+    #제목, 내용, 글쓴이 (콤보상자 이용)
+    search_info = request.GET.get("search_option", "")
+
+    # root 게시글만 가져오기
+    all_board = Board.objects.filter(post=None, category__board_name=board_name)
+    
+    if search:
+        #글쓴이로 찾기
+        if search_info == "user":
+            all_board = all_board.filter(author__nickname=search).order_by("-created_at") 
+        #제목으로 찾기
+        elif search_info == "title":
+            all_board = all_board.filter(title__contains=search).order_by("-created_at")
+        #내용으로 찾기
+        elif search_info == "info":
+            all_board = all_board.filter(information__contains=search).order_by("-created_at")
+        #제목+내용으로 찾기
+        else:
+            all_board = all_board.filter(Q(title__contains=search) | Q(information__contains=search)).order_by("-created_at")
+    else:
+        all_board = all_board.order_by("-created_at")
+
     return render(request, "main.html", {"all_board":all_board, "board_name":board_name, "categoryname":categoryname, })
 
 def root_write(request, board_name):
