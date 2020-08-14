@@ -41,7 +41,6 @@
             </div>
             </div>
             <hr>
-            <!-- 권한 있는 사람 -->
             {% elif board.author.user == user or user.profile in board.group.all %}
             <div style="text-align: center;">
                 <span class="badge badge-pill badge-light">작성자 : {{board.author.nickname}}</span><span class="badge badge-pill badge-dark">비공개글</span>{% if board.group.count %}🤼협동{% endif %}
@@ -55,7 +54,7 @@
             {% endif %}
             {% endfor %}
     </div>
-    
+
 </body>
 
 </html>
