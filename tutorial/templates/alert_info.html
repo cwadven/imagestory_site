@@ -24,7 +24,7 @@
         {% include 'navbar.html' %}
         <h1>알림<div style="text-align:right;"><a class="btn btn-dark" href="{% url 'tutorial:tutorial_list' %}">📲게시글나가기</a></div></h1>
         <hr>
-        <div style="text-align: center;">
+        <div class="container-md" style="text-align: center;">
             <h3>1. 로그인 후 최근 알림 확인</h3>
             <h5>(노랑색 : 최신 알림 있음)<br>(투명 : 최신 알림 없음)</h5>
             <img width="80%" src="{% static 'tutorial/alert/alert_1.png' %}"/>
