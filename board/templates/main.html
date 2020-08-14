@@ -32,7 +32,7 @@
             <hr>
             {% for board in all_board %}
             {% if board.secure == "public"%}
-            <div style="text-align: center;">
+            <div class="container-md" style="text-align: center;">
             <span class="badge badge-pill badge-light">작성자 : {{board.author.nickname}}</span>{% if board.group.count %}🤼협동{% endif %}
             <h2>{{board.title}}</h2>
             <p style="overflow: hidden;text-overflow:ellipsis;white-space:nowrap;">{{board.information}}</p>
@@ -42,7 +42,7 @@
             </div>
             <hr>
             {% elif board.author.user == user or user.profile in board.group.all %}
-            <div style="text-align: center;">
+            <div class="container-md" style="text-align: center;">
                 <span class="badge badge-pill badge-light">작성자 : {{board.author.nickname}}</span><span class="badge badge-pill badge-dark">비공개글</span>{% if board.group.count %}🤼협동{% endif %}
                 <h2>{{board.title}}</h2>
                 <p style="overflow: hidden;text-overflow:ellipsis;white-space:nowrap;">{{board.information}}</p>
