@@ -18,6 +18,8 @@ from django.urls import reverse
 
 from django.db.models import Q
 
+from django.core.paginator import Paginator
+
 # Create your views here.
 def login(request):
     if request.method == "POST":
@@ -87,6 +89,9 @@ def del_user(request):
 #회원정보 보기 및 수정하기
 @login_required(login_url='/')
 def profile(request):
+    if request.session.get('page', ''):
+        del request.session['page']
+
     profile_information = Profile.objects.get(user__username=request.user)
     #수정하기
     if request.method == "POST":
@@ -176,21 +181,54 @@ def my_board(request):
     # root 게시글만 가져오기
     myboards = request.user.profile.board_set.filter(post__isnull=True)
 
-    if search:
+    if request.GET.get('page') or search:
+        if search:
+            request.session['search'] = search
+            request.session['search_info'] = search_info
+    else:
+        if request.session.get('search',''):
+            del request.session['search']
+            del request.session['search_info']
+
+    session_search = request.session.get('search','')
+
+    if session_search:
         #제목으로 찾기
-        if search_info == "title":
-            myboards = myboards.filter(title__contains=search).order_by("-created_at")
+        if request.session.get('search_info','') == "title":
+            myboards = myboards.filter(title__contains=session_search).order_by("-created_at")
         #내용으로 찾기
-        elif search_info == "info":
-            myboards = myboards.filter(information__contains=search).order_by("-created_at")
+        elif request.session.get('search_info','') == "info":
+            myboards = myboards.filter(information__contains=session_search).order_by("-created_at")
         #제목+내용으로 찾기
         else:
-            myboards = myboards.filter(Q(title__contains=search) | Q(information__contains=search)).order_by("-created_at")
+            myboards = myboards.filter(Q(title__contains=session_search) | Q(information__contains=session_search)).order_by("-created_at")
     else:
         myboards = myboards.order_by("-created_at")
 
+    #페이지네이션 만들기
+    myboards = Paginator(myboards, 2)
+    page = request.GET.get('page')
+
+    #페이지 보이게 하는 숫자 구간
+    page_numbers_range = 5
+
+    #최대 녀석이 있을 경우 최대 까지만 보이도록 하기 위해서!
+    max_index = len(myboards.page_range)
+
+    #페이지가 0일 경우 1로 변경 current_page에 넣기
+    current_page = int(page) if page else 1
+    start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+    end_index = start_index + page_numbers_range
+
+    if end_index >= max_index:
+        end_index = max_index
+
+    page_range = myboards.page_range[start_index:end_index]
+
+    myboards = myboards.get_page(page) #페이지네이션 만들기
+
     request.session['page'] = 'my_board'
-    return render(request, "my_board.html", {"myboards":myboards})
+    return render(request, "my_board.html", {"page_range":page_range, "myboards":myboards})
 
 
 #권한 중복확인하는 ajax용 함수 만들기 (닉네임, 아이디, 이메일)

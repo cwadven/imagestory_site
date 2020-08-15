@@ -10,7 +10,7 @@ from django.core import serializers
 from django.urls import reverse
 from django.db.models import Q
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 
 # Create your views here.
 def main(request, board_name):
