@@ -682,18 +682,37 @@ function delete_root(){
     <!-- 나중에 get_board.post_root.author == user.profile 어차피 모든 권한이 있어서 굳이 필요가 없음 -->
     {% if get_board.post_root.author %}
         {% if user.profile in get_board.post_root.group.all or get_board.post_root.author == user.profile %}
+        <p>
         <input class="btn btn-success" id='setting' type="button" value="영역추가하기" onclick="use_canvas();">
         <input class="btn btn-warning" id="mod_layer" type="button" value="영역 수정하기" onclick="mod_layer();"/>
+        </p>
         {% endif %}
     {%else%}
     <!-- 루트넣는 곳에 루트가 있을 경우!(즉, 게시글이 루트 일 경우) -->
         {% if user.profile in get_board.group.all or get_board.author == user.profile %}
+        <p>
         <input class="btn btn-success" id='setting' type="button" value="영역추가하기" onclick="use_canvas();">
         <input class="btn btn-warning" id="mod_layer" type="button" value="영역 수정하기" onclick="mod_layer();"/>
+        </p>
         {% endif %}
     {% endif %}
 
     <input class="btn btn-primary" id="see_all" type="button" value="영역 숨기기" onclick="see_all();">
+    <!-- Extra large modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">전체화면</button>
+
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            <img width="100%" style="margin:auto;" src="{{get_board.image.url}}"></img>
+        </div>
+    </div>
+    </div>
         
     </div>
     <hr>

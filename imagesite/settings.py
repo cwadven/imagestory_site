@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'mmr!k4ot+a8w0zd2ew)-pjruzb@b5#x$im(wa9*tftd($n#ho*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["imagestory.pythonanywhere.com"]
 
