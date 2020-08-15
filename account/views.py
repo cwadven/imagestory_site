@@ -206,7 +206,7 @@ def my_board(request):
         myboards = myboards.order_by("-created_at")
 
     #페이지네이션 만들기
-    myboards = Paginator(myboards, 2)
+    myboards = Paginator(myboards, 10)
     page = request.GET.get('page')
 
     #페이지 보이게 하는 숫자 구간
