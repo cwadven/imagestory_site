@@ -20,6 +20,8 @@ from django.db.models import Q
 
 from django.core.paginator import Paginator
 
+from django.core.mail import EmailMessage
+
 # Create your views here.
 def login(request):
     if request.method == "POST":
@@ -40,20 +42,34 @@ def login(request):
 def signup(request):
     if request.method == "POST":
         signupform = SignupForm(request.POST, request.FILES)
-        # loginform = LoginForm(request.POST)
+
         next_page = request.POST.get('next','/')
         if request.POST["password1"]==request.POST["password2"]:
             if signupform.is_valid():
+                # send_message_title = "ImageStory에 가입을 환영합니다!"
+                # user_email = signupform.cleaned_data['email']
+                # send_message_body = "ImageStory 회원가입을 진심으로 환영합니다!!✨✨🎉🎉\n이미지스토리에 모르는 것이 있으시면 https://imagestory.pythonanywhere.com/tutorial/ 에 접속해서 사용법을 확인 해보세요~!"
+
+                # email_send = EmailMessage(send_message_title, send_message_body, to=[user_email])
+
+                # try:
+                #     email_send.send()
+                # except:
+                #     messages.info(request, '유효하지 않은 이메일입니다! 이메일을 확인 해주세요!')
+                #     return render(request, 'registration/signup.html', {'signupform':signupform, 'next_page':next_page, 'checked':False})
+
                 user = User.objects.create_user(
                     username=request.POST.get("username_id"),
                     password=request.POST.get("password1")
                 )
+
                 waitprofile = signupform.save(commit=False)
                 waitprofile.user = user
                 waitprofile.save()
                 auth.login(request, user)
                 return HttpResponseRedirect(next_page)
             else:
+                messages.info(request, '이메일을 제대로 작성 해주세요!')
                 return render(request, 'registration/signup.html', {'signupform':signupform, 'next_page':next_page, 'checked':False})
         else:
             messages.info(request, "재확인 비밀번호가 틀렸습니다! 재작성 해주세요!")
