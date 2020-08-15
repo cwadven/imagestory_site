@@ -10,8 +10,11 @@ from django.core import serializers
 from django.urls import reverse
 from django.db.models import Q
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 # Create your views here.
 def main(request, board_name):
+
     categoryname = Category.objects.get(board_name=board_name)
 
     #검색 기능 추가
@@ -20,26 +23,63 @@ def main(request, board_name):
     #제목, 내용, 글쓴이 (콤보상자 이용)
     search_info = request.GET.get("search_option", "")
 
+    #페이지 리쿼스트가 있을 경우
+    #처음에 search를 하면 search가 남을 것이다 하지만 그다음 page를 누르면 페이지가 있을 것이다
+    #결국 어차피 한번 search가 session값에 저장이 된다!
+    #게시글 나가기 했을 때도 값이 남아 있어야 하나?? 추후에 생각
+    if request.GET.get('page') or search:
+        if search:
+            request.session['search'] = search
+            request.session['search_info'] = search_info
+    else:
+        if request.session.get('search',''):
+            del request.session['search']
+            del request.session['search_info']
+
     # root 게시글만 가져오기
     all_board = Board.objects.filter(post=None, category__board_name=board_name)
+
+    session_search = request.session.get('search','')
     
-    if search:
+    if session_search:
         #글쓴이로 찾기
-        if search_info == "user":
-            all_board = all_board.filter(author__nickname=search).order_by("-created_at") 
+        if request.session.get('search_info','') == "user":
+            all_board = all_board.filter(author__nickname=session_search).order_by("-created_at") 
         #제목으로 찾기
-        elif search_info == "title":
-            all_board = all_board.filter(title__contains=search).order_by("-created_at")
+        elif request.session.get('search_info','') == "title":
+            all_board = all_board.filter(title__contains=session_search).order_by("-created_at")
         #내용으로 찾기
-        elif search_info == "info":
-            all_board = all_board.filter(information__contains=search).order_by("-created_at")
+        elif request.session.get('search_info','') == "info":
+            all_board = all_board.filter(information__contains=session_search).order_by("-created_at")
         #제목+내용으로 찾기
         else:
-            all_board = all_board.filter(Q(title__contains=search) | Q(information__contains=search)).order_by("-created_at")
+            all_board = all_board.filter(Q(title__contains=session_search) | Q(information__contains=session_search)).order_by("-created_at")
     else:
         all_board = all_board.order_by("-created_at")
 
-    return render(request, "main.html", {"all_board":all_board, "board_name":board_name, "categoryname":categoryname, })
+    #페이지네이션 만들기
+    all_board = Paginator(all_board, 10)
+    page = request.GET.get('page')
+
+    #페이지 보이게 하는 숫자 구간
+    page_numbers_range = 5
+
+    #최대 녀석이 있을 경우 최대 까지만 보이도록 하기 위해서!
+    max_index = len(all_board.page_range)
+
+    #페이지가 0일 경우 1로 변경 current_page에 넣기
+    current_page = int(page) if page else 1
+    start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+    end_index = start_index + page_numbers_range
+
+    if end_index >= max_index:
+        end_index = max_index
+
+    page_range = all_board.page_range[start_index:end_index]
+
+    all_board = all_board.get_page(page) #페이지네이션 만들기
+
+    return render(request, "main.html", {"page_range":page_range,"all_board":all_board, "board_name":board_name, "categoryname":categoryname, })
 
 def root_write(request, board_name):
     boardform = Boardmodform_root()
