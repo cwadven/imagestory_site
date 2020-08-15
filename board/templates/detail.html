@@ -19,6 +19,7 @@
         height: 1.5em;
         transition: 1s;
     }
+
     </style>
     {% if get_board.image %}
     <style>
@@ -76,7 +77,7 @@
         window.onresize=function(e){ reOffset(); } //크기 조정시
 
 
-        
+
 
         function init() {
             var img = document.getElementById("can_img");
@@ -674,7 +675,7 @@ function delete_root(){
     <div>{{get_board.information|linebreaks}}</div>
 
 
-   
+
 {% if get_board.image %}
     <div>
     <!-- 추가랑 수정만 할 수 있도록 (추후에는 관리자는 전부 가능하게 만들 것) -->
@@ -713,7 +714,7 @@ function delete_root(){
         </div>
     </div>
     </div>
-        
+
     </div>
     <hr>
 
@@ -785,7 +786,7 @@ function delete_root(){
 
 <p></p>
 <!-- 대대댓글 정보 볼 수 있도록 설정!!! 재귀 함수 -->
-{%for comment in detail_getComment %} 
+{%for comment in detail_getComment %}
   {%include "comments.html" %}
   <hr>
 {%endfor%}
