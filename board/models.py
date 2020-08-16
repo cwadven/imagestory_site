@@ -25,7 +25,9 @@ class Board(TimeStampedModel):
         ('public', '공개'),
         ('private', '비공개'),
     ]
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE,)
+
+    #탈퇴 회원 글 남겨 놓도록 하기
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     secure = models.CharField(max_length=7, choices=secure_options)
     title = models.CharField(max_length=50)
     information = models.TextField()

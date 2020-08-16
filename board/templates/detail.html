@@ -660,6 +660,7 @@ function delete_root(){
     {% if get_board.post %}
     <p><input id="" type="button" value="📌경로확인" onclick="route_show(this);"></input></p>
     {% endif %}
+    
 
     <!-- 지금까지 온 경로를 알기 위해서 넣기 -->
     <div id="route" style="display: none;">
@@ -670,6 +671,12 @@ function delete_root(){
     {% endif %}
     </div>
 
+    {% if get_board.post %}
+        {% if get_board.author.nickname != get_board.post_root.author.nickname %}
+        <!-- 협력자의 아이디를 알 수 있도록 하기 위해서 설정 -->
+        <div style="text-align:center;"><span class="badge badge-pill badge-light">🤼작성자 : {% if get_board.author.nickname %}{{get_board.author.nickname}}{% else %}탈퇴회원{% endif %}</span></div>
+        {% endif %}
+    {% endif %}
 
     <h1>{{get_board.title}}</h1>
     <div>{{get_board.information|linebreaks}}</div>
@@ -716,6 +723,7 @@ function delete_root(){
     </div>
 
     </div>
+
     <hr>
 
     {% if get_board.post_root.author %}
@@ -751,7 +759,7 @@ function delete_root(){
         </div>
         {% endif %}
     {% endif %}
-
+        
     <div style="text-align: center;">
     <img style="margin:auto;" class="map" draggable="false" id="can_img" src="{{get_board.image.url}}" usemap="#map"></img>
     <canvas id="can" style="display:none; margin:auto;border:2px solid;touch-action: none;"></canvas>

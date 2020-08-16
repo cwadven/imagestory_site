@@ -37,10 +37,24 @@
                 username_check = false
                 $('#username_check').text("중복된 확인을 해주세요!");
                 $('#username_check').css("color", "red");
+                $('#username_check_button').attr("disabled", false);
+                if (3 >= $("#username_id").val().length){
+                    username_check = false
+                    $('#username_check_button').attr("disabled", true);
+                    $('#username_check').text("아이디를 4글자 이상으로 설정해주세요!");
+                    $('#username_check').css("color", "red");
+                }
             } else if (x=="nickname_id") {
                 nickname_check = false
                 $('#nickname_check').text("중복된 확인을 해주세요!");
                 $('#nickname_check').css("color", "red");
+                $('#nickname_check_button').attr("disabled", false);
+                if (1 >= $("#nickname_id").val().length){
+                    nickname_check = false
+                    $('#nickname_check_button').attr("disabled", true);
+                    $('#nickname_check').text("닉네임를 2글자 이상으로 설정해주세요!");
+                    $('#nickname_check').css("color", "red");
+                }
             } else if (x=="email_id"){
                 email_check = false
                 $('#email_check').text("중복된 확인을 해주세요!");
@@ -157,10 +171,10 @@
             {% csrf_token %}
             <table style="margin:auto; margin-bottom: 10px;width: 100%;">
                 <tr>
-                    <td><input style="text-align: center;" id="username_id" name="username_id" type="text" placeholder="👤아이디" onchange="rematch(this.id)" required></td>
+                    <td><input style="text-align: center;" id="username_id" name="username_id" type="text" placeholder="👤아이디(4글자이상)" onchange="rematch(this.id)" required></td>
                 </tr>
                 <tr>
-                    <td><input class="btn btn-warning btn-sm" type="button" value="아이디 중복확인" onclick="overlap($('#username_id').val(), 'username');"></span></td>
+                    <td><input id="username_check_button" class="btn btn-warning btn-sm" type="button" value="아이디 중복확인" onclick="overlap($('#username_id').val(), 'username');"></span></td>
                 </tr>
                 <tr>
                     <td><span id="username_check"></span></td>
@@ -172,10 +186,13 @@
                     <td><input style="text-align: center;" name="password2" type="password" placeholder="🔒비밀번호 확인" minlength="8" required></td>
                 </tr>
                 <tr>
+                    <td>비밀번호 8글자 이상</td>
+                </tr>
+                <tr>
                     <td>{{ signupform.nickname }}</td>
                 </tr>
                 <tr>
-                    <td><input class="btn btn-warning btn-sm" type="button" value="닉네임 중복확인" onclick="overlap($('#nickname_id').val(), 'nickname');"></td>
+                    <td><input id="nickname_check_button" class="btn btn-warning btn-sm" type="button" value="닉네임 중복확인" onclick="overlap($('#nickname_id').val(), 'nickname');"></td>
                 </tr>
                 <tr>
                     <td><span id="nickname_check"></span></td>

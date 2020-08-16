@@ -56,6 +56,13 @@
                 $('#modify_check').css("display", "block");
                 $('#nickname_check').text("중복된 확인을 해주세요!");
                 $('#nickname_check').css("color", "red");
+                $('#modify_check').attr("disabled", false);
+                if (1 >= $("#nickname_id").val().length){
+                    username_check = false
+                    $('#modify_check').attr("disabled", true);
+                    $('#nickname_check').text("닉네임를 2글자 이상으로 설정해주세요!");
+                    $('#nickname_check').css("color", "red");
+                }
             }
             $('#modify_submit').attr("disabled", true);
             $('#overlap_id').text("중복확인을 해주세요!");

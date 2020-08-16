@@ -21,11 +21,18 @@ class SignupForm(forms.ModelForm):
             'nickname': forms.TextInput(attrs={
                 'id': 'nickname_id',
                 'onchange':'rematch(this.id)',
-                'placeholder':'🎭닉네임',
+                'placeholder':'🎭닉네임(2글자이상)',
+                'style':'text-align:center',
+                'required':True,
+                'minlength':2,
+                }),
+            'email': forms.EmailInput(attrs={
+                'id': 'email_id',
+                'onchange':"rematch(this.id)",
+                'placeholder':'✉이메일',
                 'style':'text-align:center',
                 'required':True,
                 }),
-            'email': forms.EmailInput(attrs={'id': 'email_id', 'onchange':"rematch(this.id)", 'placeholder':'✉이메일','style':'text-align:center','required':True,}),
             'image': forms.FileInput(attrs={'style':'display:none',})
         }
         error_messages = {

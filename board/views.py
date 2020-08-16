@@ -210,7 +210,7 @@ def detail(request, board_name, id):
 
     #댓글 작성
     commentform = CommentTest()
-
+    
     #댓글 보여주기
     detail_getComment = Comment.objects.filter(main_post=get_board, post__isnull=True)
 
