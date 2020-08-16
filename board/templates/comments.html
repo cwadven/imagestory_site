@@ -5,7 +5,7 @@
 {% else %}
 <div class="media ml-0"> <!-- 아주 큰 p -->
 {% endif %}
-<img class="mr-2" alt={{comment.author.Name}} style="border-radius: 5px;" width="50" height="50" src="{% if comment.author.image %}{{comment.author.image.url}}{% else %}https://image.flaticon.com/icons/svg/634/634741.svg{% endif %}" alt="...">
+<img class="mr-2" alt="{{comment.author.nickname}}" style="border-radius: 5px;" width="50" height="50" src="{% if comment.author.image %}{{comment.author.image.url}}{% else %}https://image.flaticon.com/icons/svg/634/634741.svg{% endif %}" alt="...">
 <div class="media-body">
     <em style="font-family: Arial, Helvetica, sans-serif;">{{comment.created_at|date:"Y-m-d H:i"}}</em>
     {% if request.user.username == comment.author.user.username %}
