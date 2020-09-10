@@ -99,19 +99,21 @@ def root_write(request, board_name):
 def root_modify(request, board_name, id):
     get_board = Board.objects.get(id=id)
     pre_image = get_board.image #이미지가 달라졌는지 확인하기 위해서 달라졌으면 그 이미지안에 있는 글들 전부 삭제
-
+    
     #루트가 아닐 경우
     if get_board.post:
         boardform = Boardmodform(instance=get_board)
         root_author = get_board.post_root.author
+        get_root_board = get_board.post_root
     #루트일 경우
     else:
         boardform = Boardmodform_root(instance=get_board)
         root_author = get_board.author
+        get_root_board = get_board
 
-    #권한이 없는 사람이 수정하기를 못 들어오도록 막기
+    #권한이 없는 사람이 수정하기를 못 들어오도록 막기 (권한 : 작성자이면서 권한이 있을 경우)
     if request.user.is_authenticated:
-        if get_board.author == request.user.profile or root_author == request.user.profile or request.user.is_superuser:
+        if (get_board.author == request.user.profile and request.user.profile in get_root_board.group.all()) or root_author == request.user.profile or request.user.is_superuser:
             pass
         else:
             return redirect('/')
@@ -144,12 +146,14 @@ def root_delete(request, board_name, id):
         if get_board.post:
             past_id = get_board.post.id
             root_author = get_board.post_root.author
+            get_root_board = get_board.post_root
         else:
         # 루트일 경우
             past_id = False
             root_author = get_board.author
+            get_root_board = get_board
 
-        if get_board.author == request.user.profile or root_author == request.user.profile or request.user.is_superuser:
+        if (get_board.author == request.user.profile and request.user.profile in get_root_board.group.all()) or root_author == request.user.profile or request.user.is_superuser:
             get_board.delete()
             if past_id:
                 return redirect('/board/detail/'+get_board.category.board_name+'/'+str(past_id))
@@ -207,6 +211,7 @@ def write(request, board_name, id): #작성자만 작성가능하도록 사용�
 
 def detail(request, board_name, id):
     get_board = Board.objects.get(id=id)
+    root_board = get_board.post
 
     #댓글 작성
     commentform = CommentTest()
@@ -217,8 +222,10 @@ def detail(request, board_name, id):
     #root게시판이 아닐 경우
     if get_board.post_root: #search를 보여주는 조건 만약 작성자가 아닐 경우는 search로 못찾도록 만약 작성자일 경우는 전부다!!
         groups = get_board.post_root.group.all()
+        root_author = get_board.post_root.author
+        get_root_board = get_board.post_root
         if request.user.is_authenticated: #로그인 했을 경우! 이거 안하면 익명자에게는 profile이라는 필드강 없어서 오류가 남
-            if get_board.author == request.user.profile or request.user.profile in groups: #profile이라는 것으로 작성자인지 아닌지 확인하기 위해서 작성자이면 private도 볼수 있음!
+            if get_board.post_root.author == request.user.profile or request.user.profile in groups: #profile이라는 것으로 작성자인지 아닌지 확인하기 위해서 작성자이면 private도 볼수 있음!
                 # 작성자이면 비공개인 것을 다 볼 수 있음
                 search_board = Board.objects.filter(post_root=get_board.post_root).order_by("title")
                 areas = get_board.board_set.filter()
@@ -236,6 +243,8 @@ def detail(request, board_name, id):
     else:
         #root게시판일 경우
         groups = get_board.group.all()
+        root_author = get_board.author
+        get_root_board = get_board
         if request.user.is_authenticated:
             # 작성자이면 비공개인 것을 다 볼 수 있음
             if get_board.author == request.user.profile or request.user.profile in groups:
@@ -263,7 +272,8 @@ def detail(request, board_name, id):
         return render(request, "detail.html", {"find_input":find_input,"areas":areas,"get_board":get_board, "board_name":board_name, "board_form":board_form, "search_board":search_board, "commentform":commentform, "detail_getComment":detail_getComment,})
     elif not request.user.is_authenticated: #만약 회원가입하지 않은 일반 사람이 public이 아닌글을 읽을려고 하는 경우 바로 안보이도록 설정 위에 있는 이유는 user.profile을 익명자가 없기 때문에
         return redirect('/')
-    elif get_board.author == request.user.profile or request.user.profile in groups:
+    #권한 있는 사람들은 비공개 글 볼 수 있도록! (권한 있는자 : 권한이 있는 사람, 루트 게시글 작성자, 관리자)
+    elif request.user.profile in groups or root_author == request.user.profile or request.user.is_superuser: 
         return render(request, "detail.html", {"find_input":find_input,"areas":areas,"get_board":get_board, "board_name":board_name, "board_form":board_form, "search_board":search_board, "commentform":commentform, "detail_getComment":detail_getComment,})
     else:
         return redirect('/')
@@ -273,16 +283,18 @@ def mod_detail(request, board_name, id):
     # pre_image = get_board.image #이미지가 달라졌는지 확인하기 위해서 달라졌으면 그 이미지안에 있는 글들 전부 삭제
     boardform = Boardmodform(instance=get_board)
     root_board = get_board.post
-
+    
     if root_board:
         root_author = get_board.post_root.author
+        get_root_board = get_board.post_root
     #루트일 경우
     else:
         root_author = get_board.author
+        get_root_board = get_board
 
-    #권한이 없는 사람이 수정하기를 못 들어오도록 막기
+    #권한이 없는 사람이 수정하기를 못 들어오도록 막기 (권한의 기준 : 게시글을 작성한 사람 혹은 영역을 작성한 사람이고 권한을 가지고 있는 사람)
     if request.user.is_authenticated:
-        if get_board.author == request.user.profile or root_author == request.user.profile:
+        if (get_board.author == request.user.profile and request.user.profile in get_root_board.group.all()) or root_author == request.user.profile:
             pass
         else:
             # 권한이 없을 경우 detail로 원래 위치로 돌아가기
@@ -291,7 +303,7 @@ def mod_detail(request, board_name, id):
         return HttpResponseRedirect(reverse('board:detail', args=[get_board.post.category.board_name, get_board.post.id]))
 
     if request.method == 'POST':
-        if get_board.author == request.user.profile or root_author == request.user.profile:
+        if (get_board.author == request.user.profile and request.user.profile in get_root_board.group.all()) or root_author == request.user.profile:
             boardform = Boardmodform(request.POST, instance=get_board)
             if boardform.is_valid():
                 boardform.save()

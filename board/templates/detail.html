@@ -106,7 +106,11 @@
                     {
                         key: '{{i.id}}',
                         stroke: true,
+                        {% if user.is_authenticated %}
                         strokeColor:"ff44ff",
+                        {% else %}
+                        strokeColor:"FF0000",
+                        {% endif %}
                         {% if i.secure == 'public' %}
                         toolTip: '{{i.title}}',
                         {% else %}
@@ -409,7 +413,11 @@
                         {
                             key: '{{i.id}}',
                             stroke: true,
+                            {% if user.is_authenticated %}
                             strokeColor:"ff44ff",
+                            {% else %}
+                            strokeColor:"FF0000",
+                            {% endif %}
                             {% if i.secure == 'public' %}
                             toolTip: '{{i.title}}',
                             {% else %}
@@ -454,7 +462,11 @@
                         {
                             key: '{{i.id}}',
                             stroke: true,
+                            {% if user.is_authenticated %}
                             strokeColor:"ff44ff",
+                            {% else %}
+                            strokeColor:"FF0000",
+                            {% endif %}
                             {% if i.secure == 'public' %}
                             toolTip: '{{i.title}}',
                             {% else %}
@@ -615,7 +627,8 @@ function delete_root(){
     <!-- 루트가 아닐 경우! -->
     <!-- 게시글 작성자 그리고 루트 게시글 작성자만이 수정 및 삭제가 가능하다! -->
     {% if get_board.post_root.author %}
-        {% if user.profile == get_board.author or get_board.post_root.author == user.profile or user.is_superuser %}
+        <!-- 게시글을 삭제할 수 있는 권한은 게시자이면서 권한이 있을 경우 -->
+        {% if user.profile == get_board.author and user.profile in get_board.post_root.group.all or get_board.post_root.author == user.profile or user.is_superuser %}
         <a class="btn btn-warning" href="{% url 'board:root_modify' get_board.category.board_name get_board.id %}">현재 위치 수정하기</a>
         <form style="display: contents;" onsubmit="return delete_root();" action="{% url 'board:root_delete' get_board.category.board_name get_board.id %}" method='post' name='del_root'>
             {% csrf_token %}
