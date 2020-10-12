@@ -72,6 +72,7 @@
                         <div class="mt-1" style="color:rgb(145, 145, 145);overflow: hidden;text-overflow:ellipsis;">{{board.information}}</div>
                     </div>
                 </div>
+                <hr>
                 {% elif board.author.user == user or user.profile in board.group.all %}
                 <div class="media">
                     {% if board.image %}
@@ -92,10 +93,10 @@
                         <div class="mt-1" style="color:rgb(145, 145, 145);overflow: hidden;text-overflow:ellipsis;">{{board.information}}</div>
                     </div>
                 </div>
+                <hr>
                 {% endif %}
             </a>
             </div>
-            <hr>
             {% endfor %}
 
         <!-- 페이지 네이션 -->
