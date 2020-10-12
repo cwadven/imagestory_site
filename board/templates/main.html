@@ -53,6 +53,7 @@
             {% for board in all_board %}
             <div class="container-md">
             <a style="color: black;text-decoration:none;" href="{% url 'board:detail' board_name board.id %}">
+                {% if board.secure == "public"%}
                 <div class="media">
                     {% if board.image %}
                     <img class="mr-3" height="100px" width="70px" src="{{board.image.url}}">
@@ -60,12 +61,7 @@
                     <!-- 이미지 없음 -->
                     {% endif %}
                     <div class="media-body" style="overflow: hidden;white-space:nowrap;">
-                        <span class="badge badge-pill badge-light">작성자 : {{board.author.nickname}}</span>
-                        {% if board.secure == "public"%}
-                        {% elif board.author.user == user or user.profile in board.group.all %}
-                            <span class="badge badge-pill badge-dark">비공개글</span>
-                        {% endif %}
-                        
+                        <span class="badge badge-pill badge-light">작성자 : {{board.author.nickname}}</span>     
                         {% if board.group.count %}
                             🤼협동
                         {% endif %}
@@ -76,6 +72,27 @@
                         <div class="mt-1" style="color:rgb(145, 145, 145);overflow: hidden;text-overflow:ellipsis;">{{board.information}}</div>
                     </div>
                 </div>
+                {% elif board.author.user == user or user.profile in board.group.all %}
+                <div class="media">
+                    {% if board.image %}
+                    <img class="mr-3" height="100px" width="70px" src="{{board.image.url}}">
+                    {% else %}
+                    <!-- 이미지 없음 -->
+                    {% endif %}
+                    <div class="media-body" style="overflow: hidden;white-space:nowrap;">
+                        <span class="badge badge-pill badge-light">작성자 : {{board.author.nickname}}</span>
+                        <span class="badge badge-pill badge-dark">비공개글</span>
+                        {% if board.group.count %}
+                            🤼협동
+                        {% endif %}
+                        <h5 class="mt-0">
+                            <b style="white-space:normal;">{{board.title}}</b>
+                        </h5>
+                        작성일 : {{board.created_at|date:"m/d H:i"}}<br>
+                        <div class="mt-1" style="color:rgb(145, 145, 145);overflow: hidden;text-overflow:ellipsis;">{{board.information}}</div>
+                    </div>
+                </div>
+                {% endif %}
             </a>
             </div>
             <hr>
