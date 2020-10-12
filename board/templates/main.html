@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <hr>
-                {% elif board.author.user == user or user.profile in board.group.all %}
+                {% elif board.author.user == user or user.profile in board.group.all or request.user.is_superuser %}
                 <div class="media">
                     {% if board.image %}
                     <img class="mr-3" height="100px" width="70px" src="{{board.image.url}}">
