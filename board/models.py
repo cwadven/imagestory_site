@@ -66,7 +66,7 @@ class Board(TimeStampedModel):
                     pilImage = pilImage.rotate(90, expand=True)
 
                 output = BytesIO()
-                pilImage.save(output, format='JPEG', quality=75)
+                pilImage.save(output, format='JPEG', quality=100)
                 output.seek(0)
                 self.image = File(output, self.image.name)
             except:
