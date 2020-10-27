@@ -137,6 +137,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+#APPEND_SLASH = False
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
