@@ -25,7 +25,7 @@ SECRET_KEY = 'mmr!k4ot+a8w0zd2ew)-pjruzb@b5#x$im(wa9*tftd($n#ho*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["imagestory.pythonanywhere.com"]
+ALLOWED_HOSTS = ["www.imagestory.shop"]
 
 
 # Application definition
