@@ -19,7 +19,7 @@ def main(request, board_name):
 
     #검색 기능 추가
     search = request.GET.get("search", "")
-    
+
     #제목, 내용, 글쓴이 (콤보상자 이용)
     search_info = request.GET.get("search_option", "")
 
@@ -40,11 +40,11 @@ def main(request, board_name):
     all_board = Board.objects.filter(post=None, category__board_name=board_name)
 
     session_search = request.session.get('search','')
-    
+
     if session_search:
         #글쓴이로 찾기
         if request.session.get('search_info','') == "user":
-            all_board = all_board.filter(author__nickname=session_search).order_by("-created_at") 
+            all_board = all_board.filter(author__nickname=session_search).order_by("-created_at")
         #제목으로 찾기
         elif request.session.get('search_info','') == "title":
             all_board = all_board.filter(title__contains=session_search).order_by("-created_at")
@@ -99,7 +99,7 @@ def root_write(request, board_name):
 def root_modify(request, board_name, id):
     get_board = Board.objects.get(id=id)
     pre_image = get_board.image #이미지가 달라졌는지 확인하기 위해서 달라졌으면 그 이미지안에 있는 글들 전부 삭제
-    
+
     #루트가 아닐 경우
     if get_board.post:
         boardform = Boardmodform(instance=get_board)
@@ -119,7 +119,7 @@ def root_modify(request, board_name, id):
             return redirect('/')
     else:
         return redirect('/')
-    
+
     if request.method == 'POST':
         if get_board.author == request.user.profile or root_author == request.user.profile or request.user.is_superuser:
             if get_board.post:
@@ -158,7 +158,7 @@ def root_delete(request, board_name, id):
             if past_id:
                 return redirect('/board/detail/'+get_board.category.board_name+'/'+str(past_id))
             else:
-                return redirect('/board/'+get_board.category.board_name+'/')
+                return redirect('/board/'+get_board.category.board_name)
         else:
             return redirect('/board/detail/'+get_board.category.board_name+'/'+id)
 
@@ -167,7 +167,7 @@ def write(request, board_name, id): #작성자만 작성가능하도록 사용�
     if request.user.is_authenticated:
         if request.method == 'POST':
             qs = Board.objects.get(id=id)
-            
+
             # 만약 쓰는 위치가 루트가 아닐 경우
             if qs.post_root:
                 group_list = qs.post_root.group.all()
@@ -215,7 +215,7 @@ def detail(request, board_name, id):
 
     #댓글 작성
     commentform = CommentTest()
-    
+
     #댓글 보여주기
     detail_getComment = Comment.objects.filter(main_post=get_board, post__isnull=True)
 
@@ -267,13 +267,13 @@ def detail(request, board_name, id):
             change = get_object_or_404(Commentalertcontent, id=board_name[7:], profile_name=request.user.profile)
             change.view = False
             change.save()
-    
+
     if get_board.secure == "public":
         return render(request, "detail.html", {"find_input":find_input,"areas":areas,"get_board":get_board, "board_name":board_name, "board_form":board_form, "search_board":search_board, "commentform":commentform, "detail_getComment":detail_getComment,})
     elif not request.user.is_authenticated: #만약 회원가입하지 않은 일반 사람이 public이 아닌글을 읽을려고 하는 경우 바로 안보이도록 설정 위에 있는 이유는 user.profile을 익명자가 없기 때문에
         return redirect('/')
     #권한 있는 사람들은 비공개 글 볼 수 있도록! (권한 있는자 : 권한이 있는 사람, 루트 게시글 작성자, 관리자)
-    elif request.user.profile in groups or root_author == request.user.profile or request.user.is_superuser: 
+    elif request.user.profile in groups or root_author == request.user.profile or request.user.is_superuser:
         return render(request, "detail.html", {"find_input":find_input,"areas":areas,"get_board":get_board, "board_name":board_name, "board_form":board_form, "search_board":search_board, "commentform":commentform, "detail_getComment":detail_getComment,})
     else:
         return redirect('/')
@@ -283,7 +283,7 @@ def mod_detail(request, board_name, id):
     # pre_image = get_board.image #이미지가 달라졌는지 확인하기 위해서 달라졌으면 그 이미지안에 있는 글들 전부 삭제
     boardform = Boardmodform(instance=get_board)
     root_board = get_board.post
-    
+
     if root_board:
         root_author = get_board.post_root.author
         get_root_board = get_board.post_root
@@ -312,7 +312,7 @@ def mod_detail(request, board_name, id):
                 return redirect('/board/detail/'+get_board.post.category.board_name+'/'+str(root_board.id))
         else:
             return redirect('/board/'+get_board.post.category.board_name+'/'+str(root_board.id))
-    
+
     return render(request, "modify.html", {"root_board":root_board, "boardform":boardform, "get_board":get_board,})
 
 # def del_detail(request, board_name, id):
@@ -350,7 +350,7 @@ def comment_write(request, board_name, id):
                 #body = commentform.cleaned_data['body']
                 #내용과 id를 저장하기
                 Commentalertcontent.objects.create(board=main_post, sender_name=getProfile.nickname, profile_name=main_post.author, content=a)
-            
+
             return redirect('/board/detail/'+str(main_post.category.board_name)+'/'+str(id))
         else:
             return redirect('/board/detail/'+str(main_post.category.board_name)+'/'+str(id))
