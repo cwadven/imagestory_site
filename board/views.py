@@ -16,7 +16,6 @@ from django.core.paginator import Paginator
 def main(request, board_name):
 
     # page 위치를 저장하기 위해서 설정
-    request.session['board_name'] = board_name
     if request.session.get('board_name',''):
         # 게시판 바꿧는지 확인 바뀌면 page를 초기화 시키기 위해서
         if request.session.get('board_name','') != board_name:
@@ -26,6 +25,8 @@ def main(request, board_name):
         else:
             if request.GET.get('page'):
                 request.session['page'] = request.GET.get('page')
+    else:
+        request.session['board_name'] = board_name
 
     categoryname = Category.objects.get(board_name=board_name)
 
