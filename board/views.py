@@ -15,6 +15,17 @@ from django.core.paginator import Paginator
 # Create your views here.
 def main(request, board_name):
 
+    # board_name을 통해
+    if request.session.get('board_name',''):
+        # if board is changed
+        if request.session.get('board_name','') != board_name:
+            request.session['board_name'] = board_name
+            # page delete
+            del request.session['page']
+        else:
+            if request.GET.get('page'):
+                request.session['page'] = request.GET.get('page')
+
     categoryname = Category.objects.get(board_name=board_name)
 
     #검색 기능 추가
@@ -59,7 +70,10 @@ def main(request, board_name):
 
     #페이지네이션 만들기
     all_board = Paginator(all_board, 10)
-    page = request.GET.get('page')
+    if request.session.get('page',''):
+        page = request.session.get('page')
+    else:
+        page = request.GET.get('page')
 
     #페이지 보이게 하는 숫자 구간
     page_numbers_range = 5
