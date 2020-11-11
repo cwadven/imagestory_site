@@ -21,7 +21,8 @@ def main(request, board_name):
         if request.session.get('board_name','') != board_name:
             request.session['board_name'] = board_name
             # 페이지 session 초기화
-            del request.session['page']
+            if request.session.get('page',''):
+                del request.session['page']
         else:
             if request.GET.get('page'):
                 request.session['page'] = request.GET.get('page')
