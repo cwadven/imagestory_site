@@ -15,12 +15,13 @@ from django.core.paginator import Paginator
 # Create your views here.
 def main(request, board_name):
 
-    # board_name을 통해
+    # page 위치를 저장하기 위해서 설정
+    request.session['board_name'] = board_name
     if request.session.get('board_name',''):
-        # if board is changed
+        # 게시판 바꿧는지 확인 바뀌면 page를 초기화 시키기 위해서
         if request.session.get('board_name','') != board_name:
             request.session['board_name'] = board_name
-            # page delete
+            # 페이지 session 초기화
             del request.session['page']
         else:
             if request.GET.get('page'):
@@ -47,8 +48,8 @@ def main(request, board_name):
             del request.session['search']
             del request.session['search_info']
 
-    # root 게시글만 가져오기
-    all_board = Board.objects.filter(post=None, category__board_name=board_name)
+    # root 게시글만 가져오기 (secure은 안보이게 가져오기 안그러면 page를 10으로 나누는데 비밀이 있을 경우 한 페이지에 아무것도 없을 수 있다)
+    all_board = Board.objects.filter(post=None, category__board_name=board_name, secure='public')
 
     session_search = request.session.get('search','')
 
@@ -70,6 +71,7 @@ def main(request, board_name):
 
     #페이지네이션 만들기
     all_board = Paginator(all_board, 10)
+
     if request.session.get('page',''):
         page = request.session.get('page')
     else:
