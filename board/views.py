@@ -72,7 +72,7 @@ def main(request, board_name):
         all_board = all_board.order_by("-created_at")
 
     #페이지네이션 만들기
-    all_board = Paginator(all_board, 1)
+    all_board = Paginator(all_board, 10)
 
     if request.session.get('page',''):
         page = request.session.get('page')
