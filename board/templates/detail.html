@@ -21,6 +21,10 @@
         transition: 1s;
     }
 
+    .information{
+            word-break:break-word;
+    }
+
     </style>
     {% if get_board.image %}
     <style>
@@ -693,7 +697,7 @@ function delete_root(){
     {% endif %}
 
     <h1>{{get_board.title}}</h1>
-    <div style="word-break:break-word;">{{get_board.information|linebreaks}}</div>
+    <div class="information">{{get_board.information|linebreaks}}</div>
 
 
 
