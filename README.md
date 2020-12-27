@@ -25,7 +25,7 @@
 ## 서비스 주소
 **주소 :**<br>
 https://www.imagestory.shop/
-<br>
+<br><br>
 **이미지스토리 서비스 설명 및 튜토리얼 :**<br>
 https://www.imagestory.shop/tutorial/
 
@@ -36,8 +36,11 @@ https://www.imagestory.shop/tutorial/
 - Github : https://github.com/cwadven
 - Backend : Django
 - Service : SQLite, Pythonanywhere
-- Server : Pythonanywhere 호스팅
-- 기술스택 : Django, JQuery, Imagemapster
+- Server : Pythonanywhere 호스팅<br>(2020-11-05 : Hacker/월 5천원.. DB Mysql할 경우 2만원 훌쩍 ㅠㅠ 그래서 SQLite로 유지중...)
+- 기술스택 : Django, JQuery, Imagemapster(오픈라이브러리 : http://www.outsharked.com/imagemapster/)
+- 개발기간 : <br>
+    - 2020년 6월 29일 ~ 2020 8월 9일 (필수 기능 완성 / 하루에 2시간 씩)
+    - 2020년 8월 9일 ~ 지금 (필요에 따른 유지보수)
 
 ## 환경 구축
 
@@ -53,8 +56,3 @@ https://www.imagestory.shop/tutorial/
 9. python manage.py createsuper (관리자 id 생성)
 10. python manage.py runserver
 ~~~
-
-## 기능
-
-- 이미지에 영역을 남여 메모를 기록하기
-- 협업을 통한 이미지 영역 추가
