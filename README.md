@@ -2,22 +2,22 @@
 
 이미지에 이야기를 남기고, 그 때의 기억을 회상 시킬 수 있는 서비스!
 
-### 홈페이지
+<h3 align="center">[[홈페이지]]</h3>
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_page.png?raw=true"/>
 </p>
 
-### 글 목록
+<h3 align="center">[[글 목록]]</h3>
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example2.png?raw=true"/>
 </p>
 
-### 글 예제
+<h3 align="center">[[글 예제]]</h3>
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example1.png?raw=true"/>
 </p>
 
-### 마이페이지
+<h3 align="center">[[마이페이지]]</h3>
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example3.png?raw=true"/>
 </p>
