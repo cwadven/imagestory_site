@@ -1,17 +1,19 @@
-## 이미지스토리 (IMAGESTORY)
+<h1 align="center">이미지스토리 (IMAGESTORY) 🖼</h1>
 
 이미지에 이야기를 남기고, 그 때의 기억을 회상 시킬 수 있는 서비스!
 
 <p>
-<img alt="imagestory" src=""/>
+<img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_page.png?raw=true"/>
 </p>
 
----
+<p>
+<img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example1.png?raw=true"/>
+</p>
 
 ## 서비스 주소
-**주소**
+**주소 :**<br>
 https://www.imagestory.shop/
-
+<br>
 **이미지스토리 서비스 설명 및 튜토리얼 :**<br>
 https://www.imagestory.shop/tutorial/
 
