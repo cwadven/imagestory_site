@@ -228,7 +228,12 @@ def write(request, board_name, id): #작성자만 작성가능하도록 사용�
         return redirect('/board/detail/'+board_name+'/'+id)
 
 def detail(request, board_name, id):
-    get_board = Board.objects.get(id=id)
+    # alerted로만 들어올 수 있도록 설정
+    if board_name[:7] != 'alerted' and 7 < len(board_name):
+        get_board = get_object_or_404(Board, category__board_name=board_name, id=id)
+    else:
+        get_board = get_object_or_404(Board, id=id)
+
     root_board = get_board.post
 
     #댓글 작성
@@ -281,7 +286,7 @@ def detail(request, board_name, id):
     board_form = Boardmodform()
 
     if request.user.is_authenticated:
-        if board_name[:7] == "alerted": # 만약 알림에서 확인했을 경우! True를 False로 바꾼다! (읽음 느낌)
+        if board_name[:7] == "alerted" and 7 < len(board_name): # 만약 알림에서 확인했을 경우! True를 False로 바꾼다! (읽음 느낌)
             change = get_object_or_404(Commentalertcontent, id=board_name[7:], profile_name=request.user.profile)
             change.view = False
             change.save()
