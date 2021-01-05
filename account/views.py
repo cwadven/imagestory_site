@@ -163,7 +163,7 @@ def notice_ajax(request):
 
 @login_required(login_url='/')
 def alert_board(request):
-    request.session['page'] = 'alert_board'
+    # request.session['page'] = 'alert_board'
 
     alertboards = request.user.profile.commentalertcontent_set.all()
 
@@ -201,13 +201,38 @@ def del_alert_board(request, alert_id):
         del_alert = get_object_or_404(Commentalertcontent, profile_name=request.user.profile, id=alert_id)
         del_alert.delete()
 
-    return redirect("/account/alert_board/")
+    return redirect("/account/alert_board")
 
 #북마크
 @login_required(login_url='/')
 def bookmark_board(request):
-    request.session['page'] = 'bookmark'
-    return render(request, "bookmark_page.html", )
+    # request.session['page'] = 'bookmark'
+
+    bookmarkboards = request.user.profile.bookmark_set.all()
+
+    #페이지네이션 만들기
+    bookmarkboards = Paginator(bookmarkboards, 10)
+    page = request.GET.get('page')
+
+    #페이지 보이게 하는 숫자 구간
+    page_numbers_range = 5
+
+    #최대 녀석이 있을 경우 최대 까지만 보이도록 하기 위해서!
+    max_index = len(bookmarkboards.page_range)
+
+    #페이지가 0일 경우 1로 변경 current_page에 넣기
+    current_page = int(page) if page else 1
+    start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+    end_index = start_index + page_numbers_range
+
+    if end_index >= max_index:
+        end_index = max_index
+
+    page_range = bookmarkboards.page_range[start_index:end_index]
+
+    bookmarkboards = bookmarkboards.get_page(page) #페이지네이션 만들기
+
+    return render(request, "bookmark_page.html", {'page_range':page_range, 'bookmarkboards':bookmarkboards})
 
 #내가 쓴글
 @login_required(login_url='/')
@@ -268,7 +293,7 @@ def my_board(request):
 
     myboards = myboards.get_page(page) #페이지네이션 만들기
 
-    request.session['page'] = 'my_board'
+    # request.session['page'] = 'my_board'
     return render(request, "my_board.html", {"page_range":page_range, "myboards":myboards})
 
 
@@ -314,5 +339,5 @@ def auth_del_ajax(request, value, region, id):
 @login_required(login_url='/')
 def auth_board(request):
     authboards = Board.objects.filter(group__in=[request.user.profile])
-    request.session['page'] = 'auth_board'
+    # request.session['page'] = 'auth_board'
     return render(request, "auth_board.html", {"authboards":authboards})
