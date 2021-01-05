@@ -84,7 +84,7 @@
 <body>
     <div class="container-fluid">
         {% include 'navbar.html' %}
-        <h2 style="text-align: center;"><a href="{% url 'account:profile' %}">💒 {{user.profile.nickname}} 페이지</a></h2>
+        <h2 style="text-align: center;"><a href="{% url 'account:profile' %}">💒[돌아가기📲]</a></h2>
     <h4 style="text-align: center;">나의 게시글 및 권한관리</h4>
     <div style="text-align: center;">
     <form method="GET" style="text-align:right;display:inline-block;vertical-align: middle;" action="{% url 'account:my_board' %}">
