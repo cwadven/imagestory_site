@@ -8,7 +8,7 @@
 <img class="mr-2" alt="{{comment.author.nickname}}" style="border-radius: 5px;" width="50" height="50" src="{% if comment.author.image %}{{comment.author.image.url}}{% else %}https://image.flaticon.com/icons/svg/634/634741.svg{% endif %}" alt="...">
 <div class="media-body">
     <em style="font-family: Arial, Helvetica, sans-serif;">{{comment.created_at|date:"Y-m-d H:i"}}</em>
-    {% if request.user.username == comment.author.user.username %}
+    {% if request.user.username == comment.author.user.username or user.is_superuser %}
     <a style="color:#f83f3f;cursor:pointer;float:right" onclick="delete_comment('{{comment.id}}');">의견 삭제</a>
     {% endif %}
   <h5 class="mt-0">{{comment.author.nickname}}</h5>

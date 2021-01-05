@@ -376,7 +376,7 @@ def comment_write(request, board_name, id):
 #댓글 삭제
 def comment_del(request, board_name, id, comment_id):
     comment = Comment.objects.get(id=comment_id)
-    if comment.author.user.username == request.user.username:
+    if comment.author.user.username == request.user.username or request.user.is_superuser:
         comment.delete()
     return redirect('/board/detail/'+str(board_name)+"/"+str(id))
 
