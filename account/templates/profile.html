@@ -120,7 +120,7 @@
 <body>
     <div class="container-fluid">
         {% include 'navbar.html' %}
-    <h2 style="text-align: center;"><a href="/account/profile">{{user.profile.nickname}} 페이지</a></h2>
+    <h2 style="text-align: center;"><a href="{% url 'account:profile' %}">💒 {{user.profile.nickname}} 페이지</a></h2>
     <p></p>
         <div class="card bg-light mb-3" style="width:fit-content;margin:auto;padding: 20px;">
             <div style="text-align: center;" class="card-header"><h4>회원정보</h4></div>

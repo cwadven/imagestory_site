@@ -23,7 +23,7 @@
 <body>
     <div class="container-fluid">
         {% include 'navbar.html' %}
-        <h2 style="text-align: center;"><a href="/account/profile">{{user.profile.nickname}} 페이지</a></h2>
+        <h2 style="text-align: center;"><a href="{% url 'account:profile' %}">💒 {{user.profile.nickname}} 페이지</a></h2>
     <h4 style="text-align: center;">북마크 게시글</h4>
     <hr>
         {% for bookmark in bookmarkboards %}
@@ -38,7 +38,7 @@
             </p>
         {% endif %}
 
-        <p><h3>{{bookmark.post.short_title}}</h3><a href="/board/detail/{{bookmark.post.category.board_name}}/{{bookmark.post.id}}">게시글 보러가기</a></p>
+        <p><h3>{{bookmark.post.short_title}}</h3><a href="{% url 'board:detail' bookmark.post.category.board_name bookmark.post.id %}">게시글 보러가기</a></p>
         <p>
             <em>{{bookmark.created_at|date:"Y-m-d H:i"}}</em>
             작성자 : {{bookmark.post.author.nickname}}

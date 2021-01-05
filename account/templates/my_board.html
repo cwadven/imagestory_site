@@ -84,7 +84,7 @@
 <body>
     <div class="container-fluid">
         {% include 'navbar.html' %}
-        <h2 style="text-align: center;"><a href="/account/profile">{{user.profile.nickname}} 페이지</a></h2>
+        <h2 style="text-align: center;"><a href="{% url 'account:profile' %}">💒 {{user.profile.nickname}} 페이지</a></h2>
     <h4 style="text-align: center;">나의 게시글 및 권한관리</h4>
     <div style="text-align: center;">
     <form method="GET" style="text-align:right;display:inline-block;vertical-align: middle;" action="{% url 'account:my_board' %}">
@@ -107,7 +107,7 @@
         {% for myboard in myboards %}
         <div style="text-align:center;">
         {% if myboard.secure == 'private' %}<span class="badge badge-pill badge-dark">비공개글</span>{% endif %}{% if myboard.group.count %}🤼협동{% endif %}
-        <p><h3>{{myboard.short_title}}</h3><a href="/board/detail/{{myboard.category.board_name}}/{{myboard.id}}">게시글 보러가기</a></p>
+        <p><h3>{{myboard.short_title}}</h3><a href="{% url 'board:detail' myboard.category.board_name myboard.id %}">게시글 보러가기</a></p>
         <p>
             <em>{{myboard.created_at|date:"Y-m-d H:i"}}</em>
             작성자 : {{myboard.author.nickname}}
