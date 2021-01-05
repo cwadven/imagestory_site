@@ -28,7 +28,7 @@
     <hr>
     <a href="{% url 'account:del_alert_board' 'all' %}">알림 전체 삭제</a>
     <hr>
-    {% for commentalert in user.profile.commentalertcontent_set.all %}
+    {% for commentalert in alertboards %}
         <div style="text-align:center;">
         <p><h3> 댓글 : {{commentalert.content.body}}{% if commentalert.view %} <span class="badge badge-pill badge-warning">NEW</span> {% else %} <span class="badge badge-pill badge-success">확인</span>{% endif %}</h3><a href="/board/detail/alerted{{commentalert.id}}/{{commentalert.board.id}}">게시글 보러가기</a></p>
         <p>
@@ -37,6 +37,48 @@
         </div>
         <hr>
     {% endfor %}
+    <!-- 페이지 네이션 -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          {%if alertboards.has_previous%}
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="First">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">First</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{alertboards.previous_page_number}}" aria-label="Previous">
+              <span aria-hidden="true">&lt;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          {%endif%}
+
+          {% for i in page_range %}
+          {% if i == alertboards.number %}
+          <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+          {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+          {% endif %}
+          {% endfor %}
+
+          {%if alertboards.has_next%}
+            <li class="page-item">
+            <a class="page-link" href="?page={{alertboards.next_page_number}}" aria-label="Next">
+              <span aria-hidden="true">&gt;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{alertboards.paginator.num_pages}}" aria-label="Last">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Last</span>
+            </a>
+          </li>
+          {%endif%}
+        </ul>
+    </nav>
     </div>
 </body>
 </html>

@@ -164,7 +164,32 @@ def notice_ajax(request):
 @login_required(login_url='/')
 def alert_board(request):
     request.session['page'] = 'alert_board'
-    return render(request, "alert.html", )
+
+    alertboards = request.user.profile.commentalertcontent_set.all()
+
+    #페이지네이션 만들기
+    alertboards = Paginator(alertboards, 10)
+    page = request.GET.get('page')
+
+    #페이지 보이게 하는 숫자 구간
+    page_numbers_range = 5
+
+    #최대 녀석이 있을 경우 최대 까지만 보이도록 하기 위해서!
+    max_index = len(alertboards.page_range)
+
+    #페이지가 0일 경우 1로 변경 current_page에 넣기
+    current_page = int(page) if page else 1
+    start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+    end_index = start_index + page_numbers_range
+
+    if end_index >= max_index:
+        end_index = max_index
+
+    page_range = alertboards.page_range[start_index:end_index]
+
+    alertboards = alertboards.get_page(page) #페이지네이션 만들기
+
+    return render(request, "alert.html", {'page_range':page_range, 'alertboards':alertboards})
 
 #알림내용삭제
 @login_required(login_url='/')
