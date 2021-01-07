@@ -242,6 +242,7 @@
             var img = document.getElementById("can_img");
             if (res == 'down') {
                 if(_flag){
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // 선택하는 것처럼 보이기 위해서 그림 다시 초기화
                 }
                 currX = e.clientX - offsetX; //스크롤로 움직일때 위치가 계속 변해서 해당 위치를 scroll이 변할 떄도 변하게 설정
@@ -283,6 +284,7 @@
 
             if (res == 'touchdown') {
                 if(_flag){
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // 선택하는 것처럼 보이기 위해서 그림 다시 초기화
                 }
                 currX = (e.targetTouches[0].clientX) - offsetX; //스크롤로 움직일때 위치가 계속 변해서 해당 위치를 scroll이 변할 떄도 변하게 설정
