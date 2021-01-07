@@ -48,7 +48,7 @@ function check_image_change(){
 <body>
     <div class="container-fluid p-0" style="text-align: center;">
         {% include 'navbar.html' %}
-        <p><a class="btn btn-info" href="/board/detail/{{board_name}}/{{get_board.id}}">뒤로가기</a></p>
+        <p><a class="btn btn-info" href="{% url 'board:detail' board_name get_board.id %}">뒤로가기</a></p>
         <form onsubmit="return check_image_change()" enctype="multipart/form-data" style='display:block;' id='information_data' action="{% url 'board:root_modify' get_board.category get_board.id %}" method='post' name='information_data'>
             {% csrf_token %}
             {{boardform.as_p}}

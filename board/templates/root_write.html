@@ -23,7 +23,7 @@
 <body>
 <div class="container-fluid p-0" style="text-align: center;">
     {% include 'navbar.html' %}
-    <p><a class="btn btn-info" href="/board/{{board_name}}/">뒤로가기</a></p>
+    <p><a class="btn btn-info" href="{% url 'board:main' board_name %}">뒤로가기</a></p>
     <form enctype="multipart/form-data" id='information_data' action='{% url "board:root_write" board_name %}' method='post' name='information_data'>
         {% csrf_token %}
         {{boardform.as_p}}
