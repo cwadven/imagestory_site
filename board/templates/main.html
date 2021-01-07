@@ -29,7 +29,7 @@
         {% include 'navbar.html' %}
         <h1 style="display:contents"><a style="text-decoration: none;" href="{% url 'board:main' board_name %}">{{categoryname.showing_name}}</a></h1>
             <hr style="border-style: dashed;">
-            <div style="text-align: right;">
+            <div style="text-align: right;padding-right:10px;">
             <form method="GET" style="text-align:right;display:inline-block;vertical-align: middle;" action="{% url 'board:main' board_name %}">
                 <div class="input-group">
                     <select name="search_option" class="custom-select" id="inputGroupSelect01">
@@ -53,7 +53,7 @@
             <hr>
             <!-- 모든 글 -->
             {% for board in all_board %}
-            <div class="container-md">
+            <div class="container-lg">
             <a style="color: black;text-decoration:none;" href="{% url 'board:detail' board_name board.id %}">
                 {% if board.secure == "public"%}
                 <div class="media">
@@ -74,7 +74,7 @@
                         <div class="mt-1" style="color:rgb(145, 145, 145);overflow: hidden;text-overflow:ellipsis;">{{board.information}}</div>
                     </div>
                 </div>
-                <hr>
+                <hr style="border-style: dashed;">
                 {% elif board.author.user == user or user.profile in board.group.all or request.user.is_superuser %}
                 <div class="media">
                     {% if board.image %}
@@ -95,7 +95,7 @@
                         <div class="mt-1" style="color:rgb(145, 145, 145);overflow: hidden;text-overflow:ellipsis;">{{board.information}}</div>
                     </div>
                 </div>
-                <hr>
+                <hr style="border-style: dashed;">
                 {% endif %}
             </a>
             </div>
