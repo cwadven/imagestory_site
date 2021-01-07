@@ -18,12 +18,13 @@
         height: 1.5em;
         transition: 1s;
     }
+    
     </style>
     {% include 'notice_ajax.html' %}
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <!-- 검색하기 만들기 -->
         {% include 'navbar.html' %}
         <h1 style="display:contents"><a style="text-decoration: none;" href="{% url 'board:main' board_name %}">{{categoryname.showing_name}}</a></h1>
