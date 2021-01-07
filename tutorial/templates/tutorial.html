@@ -1,30 +1,9 @@
+{% extends 'base/tutorial_base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이미지스토리</title>
-    <link rel="icon" href="/static/imagestory.ico">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.js"></script>
-    <style>
-        .svg-icon {
-            width: 1.5em;
-            height: 1.5em;
-            transition: 1s;
-        }
-    </style>
-</head>
-{% include 'notice_ajax.html' %}
-<body>
-    <div class="container-fluid p-0">
-        {% include 'navbar.html' %}
+{% block content %}
         <h1>사용법</h1>
         <hr>
-        <div class="row row-cols-1 row-cols-md-3">
+        <div class="row row-cols-1 row-cols-md-3 p-3">
             <a style="text-decoration: none;" href="{% url 'tutorial:board_info' %}">
             <div class="col mb-4">
               <div class="card h-100">
@@ -147,6 +126,4 @@
               </div>
               </a>
           </div>
-    </div>
-</body>
-</html>
+{% endblock %}

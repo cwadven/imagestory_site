@@ -1,28 +1,8 @@
+{% extends 'base/tutorial_base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이미지스토리</title>
-    <link rel="icon" href="/static/imagestory.ico">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.js"></script>
-    <style>
-        .svg-icon {
-            width: 1.5em;
-            height: 1.5em;
-            transition: 1s;
-        }
-    </style>
-</head>
-{% include 'notice_ajax.html' %}
-<body>
-    <div class="container-fluid p-0">
-        {% include 'navbar.html' %}
-        <h1>게시글 수정 방법<div style="text-align:right;"><a class="btn btn-dark" href="{% url 'tutorial:tutorial_list' %}">📲게시글나가기</a></div></h1>
+{% block content %}
+        <h1>게시글 수정 방법</h1>
+        <div class="button_padding"><a class="btn btn-dark" href="{% url 'tutorial:tutorial_list' %}">📲게시글나가기</a></div>
         <hr>
         <div class="container-md" style="text-align: center;">
         <h3>1. 생성한 게시글로 들어간다</h3>
@@ -45,6 +25,4 @@
         그나마 괜찮을 것이다</h5>
         <img width="80%" src="{% static 'tutorial/board_modify/board_modify_3.png' %}"/>
         </div>
-    </div>
-</body>
-</html>
+{% endblock %}
