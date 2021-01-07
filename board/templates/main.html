@@ -27,7 +27,7 @@
     <div class="container-fluid p-0">
         <!-- 검색하기 만들기 -->
         {% include 'navbar.html' %}
-        <h1 style="display:contents"><a style="text-decoration: none;" href="{% url 'board:main' board_name %}">{{categoryname.showing_name}}</a></h1>
+        <h1 style="display:contents;"><a style="text-decoration: none;padding-left:15px;" href="{% url 'board:main' board_name %}">{{categoryname.showing_name}}</a></h1>
             <hr style="border-style: dashed;">
             <div style="text-align: right;padding-right:10px;">
             <form method="GET" style="text-align:right;display:inline-block;vertical-align: middle;" action="{% url 'board:main' board_name %}">
