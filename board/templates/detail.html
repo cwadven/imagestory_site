@@ -271,6 +271,7 @@
 
             if (res == 'move') {
                 if (flag) { //눌린 상태인지 확인
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                     currX = e.clientX - offsetX; //스크롤로 움직일때 위치가 계속 변해서 해당 위치를 scroll이 변할 떄도 변하게 설정
                     currY = e.clientY - offsetY; //스크롤로 움직일때 위치가 계속 변해서 해당 위치를 scroll이 변할 떄도 변하게 설정
@@ -311,6 +312,7 @@
 
             if (res == 'touchmove') {
                 if (flag) { //눌린 상태인지 확인
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                     currX = (e.targetTouches[0].clientX) - offsetX; //스크롤로 움직일때 위치가 계속 변해서 해당 위치를 scroll이 변할 떄도 변하게 설정
                     currY = (e.targetTouches[0].clientY) - offsetY; //스크롤로 움직일때 위치가 계속 변해서 해당 위치를 scroll이 변할 떄도 변하게 설정
