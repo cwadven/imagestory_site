@@ -21,7 +21,7 @@ var alarm_status = true;
                                 $('#notice_result').append("의견내용 :<br>" + data["show_alert"][i]["fields"]["content"].slice(0,13)+"...<br>")
                             }
                             $('#notice_result').append("작성자 : " + data["show_alert"][i]["fields"]["sender_name"]+"<br>")
-                            $('#notice_result').append("<a href=/board/detail/alerted" + comment_id + "/"+url+">"+"보러가기</a><br><hr>")
+                            $('#notice_result').append("<a href=/account/check_alert_board/" + comment_id +">"+"보러가기</a><br><hr>")
                         }
                         $('#notice_result').append("<a href='{% url 'account:alert_board' %}'>알림 더보기</a>")
                         alarm_status = false;
