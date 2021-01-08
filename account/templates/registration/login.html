@@ -35,16 +35,17 @@
 <form method="POST" action="{% url 'account:login' %}" class="form-signin">
     {% csrf_token %}
   <img class="mb-4" src="{% static 'imagestory.png' %}" alt="" width="72" height="72">
-  <h1 class="h3 mb-3 font-weight-normal">ImageStory</h1>
+  <h1 class="h3 mb-3 font-weight-normal">IMAGE STORY</h1>
   {{ form.as_p }}
   <input class="btn btn-lg btn-primary btn-block" type="submit" value="로그인"/>
+  <a href="javascript:history.back();" class="btn btn-lg btn-light btn-block">📲돌아가기</a>
   <input type="hidden" id ="next" name="next" value="{{ request.GET.next }}">
   {% if messages %}
     {% for message in messages %}
     <br>{{ message }}
     {% endfor %}
   {% endif %}
-  <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+  <p class="mt-5 mb-3 text-muted">&copy; 2020 IMAGE STORY</p>
 </form>
 </body>
 </html>
