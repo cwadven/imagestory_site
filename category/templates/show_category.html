@@ -1,7 +1,7 @@
 {% load information_extras %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,7 +49,7 @@
         }
     }
 </script>
-<body>
+<body class="d-flex flex-column h-100">
 <div class="container-fluid p-0">
     {% include 'navbar.html' %}
     <hr>
@@ -90,5 +90,10 @@
     {% endfor %}
     </div>
 </div>
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container" style="text-align: center;">
+    <span class="text-muted">GITHUB : https://github.com/cwadven<br>EMAIL : cwadven@naver.com<br>© 2020 IMAGE STORY. All rights reserved</span>
+  </div>
+</footer>
 </body>
 </html>
