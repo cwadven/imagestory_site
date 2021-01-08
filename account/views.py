@@ -191,6 +191,22 @@ def alert_board(request):
 
     return render(request, "alert.html", {'page_range':page_range, 'alertboards':alertboards})
 
+#알림 모두 확인 및 하나 확인
+@login_required(login_url='/')
+def check_alert_board(request, alert_id):
+    if alert_id == "all":
+        check_alert = Commentalertcontent.objects.filter(profile_name=request.user.profile)
+        check_alert.update(view=False)
+    else:
+        check_alert = get_object_or_404(Commentalertcontent, profile_name=request.user.profile, id=alert_id)
+        board_id = check_alert.board.id
+        board_category = check_alert.board.category.board_name
+        check_alert.view = False
+        check_alert.save()
+        return redirect("/board/detail/"+board_category+"/"+str(board_id))
+
+    return redirect("/account/alert_board")
+
 #알림내용삭제
 @login_required(login_url='/')
 def del_alert_board(request, alert_id):

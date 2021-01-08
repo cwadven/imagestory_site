@@ -10,14 +10,14 @@
     <h4 style="text-align: center;">알림 메세지</h4>
     <hr>
     <div style="padding-left:10px;">
-      <a href="{% url 'account:del_alert_board' 'all' %}">알림 전체 삭제</a>
+      <a style="color:red;font-weight: bold;" href="{% url 'account:del_alert_board' 'all' %}">알림 전체 삭제</a> <a style="color:green;font-weight: bold;" href="{% url 'account:check_alert_board' 'all' %}">알림 전체 확인</a>
     </div>
     <hr>
     {% for commentalert in alertboards %}
         <div style="text-align:center;">
-        <p><h3> 댓글 : {{commentalert.content.body}}{% if commentalert.view %} <span class="badge badge-pill badge-warning">NEW</span> {% else %} <span class="badge badge-pill badge-success">확인</span>{% endif %}</h3><a href="/board/detail/alerted{{commentalert.id}}/{{commentalert.board.id}}">게시글 보러가기</a></p>
+        <p><h3> 댓글 : {{commentalert.content.body}}{% if commentalert.view %} <span class="badge badge-pill badge-warning">NEW</span> {% else %} <span class="badge badge-pill badge-success">확인</span>{% endif %}</h3><a href="{% url 'account:check_alert_board' commentalert.id %}">게시글 보러가기</a></p>
         <p>
-            송신자 : {{commentalert.sender_name}} | <a href="{% url 'account:del_alert_board' commentalert.id %}">알림삭제</a>
+            송신자 : {{commentalert.sender_name}} | <a style="color:red;" href="{% url 'account:del_alert_board' commentalert.id %}">알림삭제</a>
         </p>
         </div>
         <hr>

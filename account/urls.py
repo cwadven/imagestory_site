@@ -27,6 +27,9 @@ urlpatterns = [
     #알림확인
     path('alert_board', views.alert_board, name='alert_board'),
     
+    #알림전체확인
+    path('check_alert_board/<alert_id>', views.check_alert_board, name='check_alert_board'),
+
     #알림삭제
     path('del_alert_board/<alert_id>', views.del_alert_board, name='del_alert_board'),
 
