@@ -30,7 +30,7 @@
             <div style="padding:20px;" class="dropdown-menu dropdown-menu-right alert-warning" aria-labelledby="notice" id="notice_result"></div>
         </a>
         {% else %}
-        <a class="btn btn-light" href="{% url 'account:login' %}?next={{request.path}}">🔑로그인</a>
+        <a style="margin-right:10px;" class="btn btn-light" href="{% url 'account:login' %}?next={{request.path}}">🔑로그인</a>
         <a class="btn btn-dark" href="{% url 'account:signup' %}?next={{request.path}}">✨회원가입</a>
         {% endif %}
     </ul>
