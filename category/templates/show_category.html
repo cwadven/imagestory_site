@@ -76,7 +76,7 @@
     </form>
     {% endif %}
     <hr>
-    <div style="text-align:center;">
+    <div style="text-align:center;margin-bottom:20px;">
     {% for i in all_category %}
     <a style="margin: 5px;" class="btn btn-secondary" href="{% url 'board:main' i.board_name %}">{{i.showing_name}} ({{i.board_count}})</a>
     {% if user.is_superuser %}
@@ -86,7 +86,10 @@
         <input class="btn btn-danger" type="submit" value="삭제하기"/>
      </form>
      <p></p>
+     {% else %}
+     <p></p>
      {% endif %}
+     
     {% endfor %}
     </div>
 </div>
