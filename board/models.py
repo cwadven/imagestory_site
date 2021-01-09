@@ -38,6 +38,7 @@ class Board(TimeStampedModel):
     important = models.FloatField(null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,)
     image = models.ImageField(upload_to='board_picture/', null=True, blank=True)
+    thumbnail_image = models.ImageField(upload_to='board_picture_thumbnail/', null=True, blank=True)
     post = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
     post_root = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="root")
 
@@ -71,8 +72,25 @@ class Board(TimeStampedModel):
                 self.image = File(output, self.image.name)
             except:
                 pass
+            
+            # 썸네일 저장하기
+            # root 일 경우 용량 큰 것 작은 썸네일로 저장하기
+            if not self.post:
+                pilImage.thumbnail((200,200))
+                output2 = BytesIO()
+                pilImage.save(output2, format='JPEG')
+                output2.seek(0)
+                self.thumbnail_image = File(output2, "thumbnail_" + self.image.name)
 
         return super(Board, self).save(*args, **kwargs)
+
+    # def image_preview(self):
+    #     pilImage = Img.open(self.image)
+    #     pilImage.thumbnail((130,130))
+    #     output = BytesIO()
+    #     pilImage.save(output, format='JPEG', quality=100)
+    #     output.seek(0)
+    #     return File(output, self.image.name)
 
     def short_title(self):
         if len(self.title)>15:
