@@ -67,7 +67,7 @@ class Board(TimeStampedModel):
                     pilImage = pilImage.rotate(90, expand=True)
 
                 output = BytesIO()
-                pilImage.save(output, format='JPEG', quality=100)
+                pilImage.save(output, format='PNG', quality=100)
                 output.seek(0)
                 self.image = File(output, self.image.name)
             except:
@@ -78,7 +78,7 @@ class Board(TimeStampedModel):
             if not self.post:
                 pilImage.thumbnail((200,200))
                 output2 = BytesIO()
-                pilImage.save(output2, format='JPEG')
+                pilImage.save(output2, format='PNG')
                 output2.seek(0)
                 self.thumbnail_image = File(output2, "thumbnail_" + self.image.name)
 

@@ -5,7 +5,7 @@ from .forms import Boardmodform, Boardmodform_root, CommentTest
 from account.models import Profile, Commentalert
 
 import json
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.urls import reverse
 from django.db.models import Q
@@ -102,14 +102,18 @@ def main(request, board_name):
 def root_write(request, board_name):
     boardform = Boardmodform_root()
     if request.user.is_authenticated:
-        if request.method == 'POST':
+        # ajax로 변경 프로그래스 바 때문에
+        if request.is_ajax():
             boardform = Boardmodform_root(request.POST, request.FILES)
             if boardform.is_valid():
                 waitform = boardform.save(commit=False)
                 waitform.category = Category.objects.get(board_name=board_name)
                 waitform.author = Profile.objects.get(nickname=request.user.profile.nickname)
                 waitform.save()
-                return redirect('/board/'+board_name)
+                return JsonResponse({'message': '/board/'+board_name})
+            else:
+                return JsonResponse({'message': 'error'})
+
         return render(request, "root_write.html", {"board_name":board_name, "boardform":boardform,})
     else:
         return redirect('/board/'+board_name)
