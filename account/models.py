@@ -19,26 +19,32 @@ class Profile(models.Model):
     
     def save(self, *args, **kwargs): #저장할때 이미지는 orientation 맞춰서 저장 또한 전부 삭제 exif정보
         if self.image:
-            pilImage = Img.open(BytesIO(self.image.read()))
-            try:
-                for orientation in ExifTags.TAGS.keys():
-                    if ExifTags.TAGS[orientation] == 'Orientation':
-                        break
-                exif = dict(pilImage._getexif().items())
+            # 이거 수정하기 할 경우 계속 자기 자신 폴더 만들어서 하기 때문에 수정하기 스스로하면
+            # 그대로 설정
+            if len(str(self.image.url).split('/')) < 4:
+                pilImage = Img.open(BytesIO(self.image.read()))
+                try:
+                    for orientation in ExifTags.TAGS.keys():
+                        if ExifTags.TAGS[orientation] == 'Orientation':
+                            break
+                    exif = dict(pilImage._getexif().items())
 
-                if exif[orientation] == 3:
-                    pilImage = pilImage.rotate(180, expand=True)
-                elif exif[orientation] == 6:
-                    pilImage = pilImage.rotate(270, expand=True)
-                elif exif[orientation] == 8:
-                    pilImage = pilImage.rotate(90, expand=True)
+                    if exif[orientation] == 3:
+                        pilImage = pilImage.rotate(180, expand=True)
+                    elif exif[orientation] == 6:
+                        pilImage = pilImage.rotate(270, expand=True)
+                    elif exif[orientation] == 8:
+                        pilImage = pilImage.rotate(90, expand=True)
 
-                output = BytesIO()
-                pilImage.save(output, format='JPEG', quality=75)
-                output.seek(0)
-                self.image = File(output, self.image.name)
-            except:
-                pass
+                    # 오리엔테이션 있는 것은 이렇게 전에 것과 비교를 하기 떄문에 없애고 저장 큰 녀석 막기 위해서 설정?
+                    # 이렇게 pop을 해줘야 추후에 다시 사진 저장 안함
+                    pilImage.thumbnail((300,300))
+                    output = BytesIO()
+                    pilImage.save(output, format='PNG')
+                    output.seek(0)
+                    self.image = File(output, self.image.name)
+                except:
+                    pass
 
         return super(Profile, self).save(*args, **kwargs)
 
