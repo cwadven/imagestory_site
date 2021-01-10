@@ -192,46 +192,51 @@ def root_delete(request, board_name, id):
 def write(request, board_name, id): #작성자만 작성가능하도록 사용하겠음 일단 추후에 그룹 같은 것 만들어서 그들 끼리 할 수 있도록 설정
     if request.user.is_authenticated:
         if request.method == 'POST':
-            qs = Board.objects.get(id=id)
-
-            # 만약 쓰는 위치가 루트가 아닐 경우
-            if qs.post_root:
-                group_list = qs.post_root.group.all()
-                # 권한이 있는 자만 작성 가능
-                if request.user.profile in group_list or qs.author == request.user.profile:
-                    boardform = Boardmodform(request.POST, request.FILES)
-                    if boardform.is_valid():
-                        waitform = boardform.save(commit=False)
-                        waitform.category = Category.objects.get(board_name=qs.category.board_name)
-                        waitform.post = qs
-                        if qs.post_root:
-                            waitform.post_root = qs.post_root
+            # Progress Bar를 보여줘야 하기 때문에 AJax 방식으로 바꿈
+            if request.is_ajax():
+                qs = Board.objects.get(id=id)
+                # 만약 쓰는 위치가 루트가 아닐 경우
+                if qs.post_root:
+                    group_list = qs.post_root.group.all()
+                    # 권한이 있는 자만 작성 가능
+                    if request.user.profile in group_list or qs.author == request.user.profile:
+                        boardform = Boardmodform(request.POST, request.FILES)
+                        if boardform.is_valid():
+                            waitform = boardform.save(commit=False)
+                            waitform.category = Category.objects.get(board_name=qs.category.board_name)
+                            waitform.post = qs
+                            if qs.post_root:
+                                waitform.post_root = qs.post_root
+                            else:
+                                waitform.post_root = qs
+                            waitform.author = Profile.objects.get(nickname=request.user.profile.nickname)
+                            waitform.save()
+                            return JsonResponse({'message': '/board/detail/'+qs.category.board_name+'/'+id})
                         else:
-                            waitform.post_root = qs
-                        waitform.author = Profile.objects.get(nickname=request.user.profile.nickname)
-                        waitform.save()
+                            return JsonResponse({'message': 'error'})
+                    else:
                         return redirect('/board/detail/'+qs.category.board_name+'/'+id)
+                # 만약 쓰는 위치가 루트 일 경우
                 else:
-                    return redirect('/board/detail/'+qs.category.board_name+'/'+id)
-            # 만약 쓰는 위치가 루트 일 경우
-            else:
-                group_list = qs.group.all()
-                # 권한이 있는 자만 작성 가능
-                if request.user.profile in group_list or qs.author == request.user.profile:
-                    boardform = Boardmodform(request.POST, request.FILES)
-                    if boardform.is_valid():
-                        waitform = boardform.save(commit=False)
-                        waitform.category = Category.objects.get(board_name=board_name)
-                        waitform.post = qs
-                        if qs.post_root:
-                            waitform.post_root = qs.post_root
+                    group_list = qs.group.all()
+                    # 권한이 있는 자만 작성 가능
+                    if request.user.profile in group_list or qs.author == request.user.profile:
+                        boardform = Boardmodform(request.POST, request.FILES)
+                        if boardform.is_valid():
+                            waitform = boardform.save(commit=False)
+                            waitform.category = Category.objects.get(board_name=board_name)
+                            waitform.post = qs
+                            if qs.post_root:
+                                waitform.post_root = qs.post_root
+                            else:
+                                waitform.post_root = qs
+                            waitform.author = Profile.objects.get(nickname=request.user.profile.nickname)
+                            waitform.save()
+                            return JsonResponse({'message': '/board/detail/'+board_name+'/'+id})
                         else:
-                            waitform.post_root = qs
-                        waitform.author = Profile.objects.get(nickname=request.user.profile.nickname)
-                        waitform.save()
+                            return JsonResponse({'message': 'error'})
+                    else:
                         return redirect('/board/detail/'+board_name+'/'+id)
-                else:
-                    return redirect('/board/detail/'+board_name+'/'+id)
     else:
         return redirect('/board/detail/'+board_name+'/'+id)
 

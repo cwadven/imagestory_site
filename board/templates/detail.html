@@ -538,7 +538,8 @@
                     alert("중요도를 적어주세요!");
                     return false;
                 }
-                document.information_data.submit();
+                upload_and_progress();
+                return false;
             } else {
                 return false;
             }
@@ -763,7 +764,7 @@ function delete_root(){
         {% if user.profile in get_board.post_root.group.all or get_board.post_root.author == user.profile %}
         <div>
         <!-- 영역추가하기 -->
-        <form onsubmit="return save_data();" enctype="multipart/form-data" style='display:none;' id='information_data' action='{% url "board:write" board_name get_board.id %}' method='post' name='information_data'>
+        <form onsubmit="save_data(); return false;" enctype="multipart/form-data" style='display:none;' id='information_data' action='{% url "board:write" board_name get_board.id %}' method='post' name='information_data'>
             {% csrf_token %}
             {{board_form.as_p}}
         <input class="btn btn-success" type='submit' value='선택 영역 정보 추가'><br><br>
@@ -779,7 +780,7 @@ function delete_root(){
         {% if user.profile in get_board.group.all or get_board.author == user.profile %}
         <div>
         <!-- 영역추가하기 -->
-        <form onsubmit="return save_data();" enctype="multipart/form-data" style='display:none;' id='information_data' action='{% url "board:write" board_name get_board.id %}' method='post' name='information_data'>
+        <form onsubmit="save_data(); return false;" enctype="multipart/form-data" style='display:none;' id='information_data' action='{% url "board:write" board_name get_board.id %}' method='post' name='information_data'>
             {% csrf_token %}
             {{board_form.as_p}}
         <input class="btn btn-success" type='submit' value='선택 영역 정보 추가'><br><br>
@@ -808,6 +809,117 @@ function delete_root(){
             {% endif %}
         {% endfor %}
     </map>
+
+<!-- 프로그래스바 Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">업로드 중</h5>
+        </div>
+        <div class="modal-body">
+            <div class="progress">
+                <div id="progress_bar" class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar"
+                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                  0%
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- 프로그래스바 보이도록 설정 -->
+<script>
+    function upload_and_progress(){
+        $('#staticBackdrop').modal({
+            show: true,
+        });
+        // 폼
+        const uploadForm = document.getElementById("information_data");
+        // 이미지
+        const inputImage = document.getElementById("id_image");
+        // csrf
+        const csrf = document.getElementsByName("csrfmiddlewaretoken");
+        // title
+        const title = document.getElementById("id_title");
+        // information
+        const information = document.getElementById("id_information");
+        // secure
+        const secure = document.getElementById("id_secure");
+
+        const progress_bar = document.getElementById("progress_bar");
+
+        // 새로운 폼 생성
+        const fd = new FormData();
+        // 그 후, 직접 안에 해당 값 넣기
+        fd.append('csrfmiddlewaretoken', csrf[0].value);
+        fd.append('title', title.value);
+        fd.append('information', information.value);
+        fd.append('secure', secure.value);
+        
+        // 이미지를 선택했을 경우 및 이미지가 기존에 있을 경우
+        image_data = inputImage.files[0];
+        fd.append('image', image_data);
+        // 좌표를 가지고 있을 경우
+        const cord_sx = document.getElementById("id_cord_sx");
+        const cord_sy = document.getElementById("id_cord_sy");
+        const cord_lx = document.getElementById("id_cord_lx");
+        const cord_ly = document.getElementById("id_cord_ly");
+        const important = document.getElementById("id_important");
+        fd.append('important', important.value);
+        fd.append('cord_sx', cord_sx.value);
+        fd.append('cord_sy', cord_sy.value);
+        fd.append('cord_lx', cord_lx.value);
+        fd.append('cord_ly', cord_ly.value);
+
+        // 프로그래스 바 보이도록 ajax 해버리기
+        $.ajax({
+            type: "POST",
+            url: uploadForm.action,
+            enctype:"multipart/form-data",
+            data: fd,
+            // 보내기 전에 하는 일
+            beforeSend: function() {
+
+            },
+            // 프로그래스 일
+            xhr: function(){
+                const xhr = new XMLHttpRequest();
+                // 진행 중일 경우 xhr를 return 한다
+                xhr.upload.addEventListener('progress', e => {
+                    if (e.lengthComputable){
+                        const percent = e.loaded / e.total * 100;
+                        progress_bar.style.width = String(parseInt(percent)) + "%";
+                        progress_bar.innerHTML = String(parseInt(percent)) + "%";
+                        if (parseInt(percent) ===  100){
+                            document.getElementById("staticBackdropLabel").innerHTML = "기다려 주세요!<br>이미지를 변환 중 입니다!<br>이미지 크기에 따라 시간이 걸립니다!";
+                            progress_bar.innerHTML = "업로드중...";
+                        }
+                    }
+                });
+                return xhr
+            },
+            // 성공 했을 경우
+            success: function(response){
+                console.log(response);
+                if (response["message"] == 'error'){
+                    console.log(response["message"]);
+                } else{
+                    location.href=response["message"];
+                }
+            },
+            // 에러 났을 경우
+            error: function(error){
+                console.log(error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        });
+    }
+</script>
+
 {% endif %}
 </div>
 
