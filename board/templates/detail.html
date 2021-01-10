@@ -642,9 +642,8 @@ function delete_root(){
 </div>
 {% endif %}
 <hr style="border-style: dashed;">
-<div style="text-align: center;">
-
-    <div style="margin-bottom: 10px;">
+<div>
+    <div class="text-center" style="margin-bottom: 10px;">
     <!-- 루트가 아닐 경우! -->
     <!-- 게시글 작성자 그리고 루트 게시글 작성자만이 수정 및 삭제가 가능하다! -->
     {% if get_board.post_root.author %}
@@ -669,7 +668,7 @@ function delete_root(){
     {% endif %}
     </div>
 
-    <p>
+    <div class="text-center m-2">
         <input class="custom-select" style="text-align: center;width: 140px;" id="search_input" type="search" name="search" list="search_list" placeholder="특정영역" autocomplete="off" onchange="search_select();"/>
         <datalist id="search_list">
             {% for i in search_board %}
@@ -688,16 +687,16 @@ function delete_root(){
                 {% endif %}
             {% endfor %}
         </datalist>
-    </p>
+    </div>
 
     <!-- 경로 보여주기 -->
     {% if get_board.post %}
-    <p><input id="" type="button" value="📌경로확인" onclick="route_show(this);"></input></p>
+    <div class="text-center"><input id="" type="button" value="📌경로확인" onclick="route_show(this);"></input></div>
     {% endif %}
 
 
     <!-- 지금까지 온 경로를 알기 위해서 넣기 -->
-    <div id="route" style="display: none;">
+    <div class="text-center m-1" id="route" style="display: none;">
     {% if get_board.post %}
         <p>
         {% include "route.html" %} > 🔹{{get_board.title}}
@@ -712,13 +711,13 @@ function delete_root(){
         {% endif %}
     {% endif %}
 
-    <h1>{{get_board.title}}</h1>
-    <div class="information">{{get_board.information|linebreaks}}</div>
+    <h1 class="text-center">{{get_board.title}}</h1>
+    <div class="information text-center">{{get_board.information|linebreaks}}</div>
 
 
 
 {% if get_board.image %}
-    <div>
+    <div class="text-center">
     <!-- 추가랑 수정만 할 수 있도록 (추후에는 관리자는 전부 가능하게 만들 것) -->
     <!-- 루트넣는 곳에 루트가 있을 경우!(즉, 게시글이 루트가 아닐 경우) -->
     <!-- 나중에 get_board.post_root.author == user.profile 어차피 모든 권한이 있어서 굳이 필요가 없음 -->
@@ -762,34 +761,52 @@ function delete_root(){
 
     {% if get_board.post_root.author %}
         {% if user.profile in get_board.post_root.group.all or get_board.post_root.author == user.profile %}
-        <div>
+        <div class="container">
         <!-- 영역추가하기 -->
         <form onsubmit="save_data(); return false;" enctype="multipart/form-data" style='display:none;' id='information_data' action='{% url "board:write" board_name get_board.id %}' method='post' name='information_data'>
             {% csrf_token %}
-            {{board_form.as_p}}
-        <input class="btn btn-success" type='submit' value='선택 영역 정보 추가'><br><br>
+            <div class="m-3 text-center"><strong>🖋영역 작성</strong></div>
+            <div class="m-2">{{boardform.title}}</div>
+            <div class="m-2">{{boardform.information}}</div>
+            <div class="m-3"><b>🖼이미지</b> : <br>{{boardform.image}}</div>
+            <div class="m-3 text-center">중요도 : {{boardform.important}}</div>
+            <div class="m-3 text-center">공개여부 : {{boardform.secure}}</div>
+            {{boardform.cord_sx}}
+            {{boardform.cord_sy}}
+            {{boardform.cord_lx}}
+            {{boardform.cord_ly}}
+        <div class="text-center m-3"><input class="btn btn-success" type='submit' value='선택 영역 정보 추가'></div>
         </form>
         </div>
 
         <!-- 수정하기 -->
         <div id="mod_layer_intent" style="display: none;">
-            <p><b>수정할 영역을 선택해주세요!</b></p>
+            <p class="text-center"><b>수정할 영역을 선택해주세요!</b></p>
         </div>
         {% endif %}
     {%else%}
         {% if user.profile in get_board.group.all or get_board.author == user.profile %}
-        <div>
+        <div class="container">
         <!-- 영역추가하기 -->
         <form onsubmit="save_data(); return false;" enctype="multipart/form-data" style='display:none;' id='information_data' action='{% url "board:write" board_name get_board.id %}' method='post' name='information_data'>
             {% csrf_token %}
-            {{board_form.as_p}}
-        <input class="btn btn-success" type='submit' value='선택 영역 정보 추가'><br><br>
+            <div class="m-3 text-center"><strong>🖋영역 작성</strong></div>
+            <div class="m-2">{{boardform.title}}</div>
+            <div class="m-2">{{boardform.information}}</div>
+            <div class="m-3"><b>🖼이미지</b> : <br>{{boardform.image}}</div>
+            <div class="m-3 text-center">중요도 : {{boardform.important}}</div>
+            <div class="m-3 text-center">공개여부 : {{boardform.secure}}</div>
+            {{boardform.cord_sx}}
+            {{boardform.cord_sy}}
+            {{boardform.cord_lx}}
+            {{boardform.cord_ly}}
+        <div class="text-center m-3"><input class="btn btn-success" type='submit' value='선택 영역 정보 추가'></div>
         </form>
         </div>
 
         <!-- 수정하기 -->
         <div id="mod_layer_intent" style="display: none;">
-            <p><b>수정할 영역을 선택해주세요!</b></p>
+            <p class="text-center"><b>수정할 영역을 선택해주세요!</b></p>
         </div>
         {% endif %}
     {% endif %}

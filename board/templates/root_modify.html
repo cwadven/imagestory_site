@@ -49,21 +49,32 @@ function check_image_change(){
 <!-- notice ajax 스크립트 추가 -->
 {% include "notice_ajax.html" %}
 <body>
-    <div class="container-fluid p-0" style="text-align: center;">
+    <div class="container-fluid p-0">
         {% include 'navbar.html' %}
-        <p><a class="btn btn-info" href="{% url 'board:detail' board_name get_board.id %}">뒤로가기</a></p>
-        <form onsubmit="check_image_change(); return false;" enctype="multipart/form-data" style='display:block;' id='information_data' action="{% url 'board:root_modify' get_board.category get_board.id %}" method='post' name='information_data'>
-            {% csrf_token %}
-            {{boardform.as_p}}
-            <div style="border: 1px black solid; width: fit-content; margin:auto; padding:10px;">
-                <p><b>사진을 수정하거나 삭제할 경우<br>만약 현재 수정하려는 사진 안에 있는 <span style="color: red;">영역의 정보가 전부 삭제</span>됩니다!</b></p>
-                <p>
-                    <span style="color: blue;font-weight: bold;">사진 수정 시 영역정보 남기기 : </span><input id="layer_save" type="checkbox" name="layer_save"/><br>
-                    단, 사진의 해상도를 고려하여 사진을 수정하세요!<br>해상도가 작아지면 영역이 안 보일 수 있습니다!
-                </p>
-            </div><br>
-            <input class="btn btn-success" type='submit' value='수정하기'>
-        </form>
+        <div class="text-center"><a class="btn btn-info" href="{% url 'board:detail' board_name get_board.id %}">뒤로가기</a></div>
+        <div class="container">
+            <form onsubmit="check_image_change(); return false;" enctype="multipart/form-data" style='display:block;' id='information_data' action="{% url 'board:root_modify' get_board.category get_board.id %}" method='post' name='information_data'>
+                {% csrf_token %}
+                <div class="m-3 text-center"><strong>♻게시글 수정</strong></div>
+                <div class="m-2">{{boardform.title}}</div>
+                <div class="m-2">{{boardform.information}}</div>
+                <div class="m-3"><b>🖼이미지</b> : <br>{{boardform.image}}</div>
+                <div class="m-3 text-center">중요도 : {{boardform.important}}</div>
+                <div class="m-3 text-center">공개여부 : {{boardform.secure}}</div>
+                {{boardform.cord_sx}}
+                {{boardform.cord_sy}}
+                {{boardform.cord_lx}}
+                {{boardform.cord_ly}}
+                <div class="text-center" style="border: 1px black solid; width: fit-content; margin:auto; padding:10px;">
+                    <p><b>사진을 수정하거나 삭제할 경우<br>만약 현재 수정하려는 사진 안에 있는 <span style="color: red;">영역의 정보가 전부 삭제</span>됩니다!</b></p>
+                    <p>
+                        <span style="color: blue;font-weight: bold;">사진 수정 시 영역정보 남기기 : </span><input id="layer_save" type="checkbox" name="layer_save"/><br>
+                        단, 사진의 해상도를 고려하여 사진을 수정하세요!<br>해상도가 작아지면 영역이 안 보일 수 있습니다!
+                    </p>
+                </div><br>
+                <input class="btn btn-success" type='submit' value='수정하기'>
+            </form>
+        </div>
     </div>
 
 <!-- 프로그래스바 Modal -->

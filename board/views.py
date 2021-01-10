@@ -295,12 +295,12 @@ def detail(request, board_name, id):
     board_form = Boardmodform()
 
     if get_board.secure == "public":
-        return render(request, "detail.html", {"find_input":find_input,"areas":areas,"get_board":get_board, "board_name":board_name, "board_form":board_form, "search_board":search_board, "commentform":commentform, "detail_getComment":detail_getComment,})
+        return render(request, "detail.html", {"find_input":find_input,"areas":areas,"get_board":get_board, "board_name":board_name, "boardform":board_form, "search_board":search_board, "commentform":commentform, "detail_getComment":detail_getComment,})
     elif not request.user.is_authenticated: #만약 회원가입하지 않은 일반 사람이 public이 아닌글을 읽을려고 하는 경우 바로 안보이도록 설정 위에 있는 이유는 user.profile을 익명자가 없기 때문에
         return redirect('/')
     #권한 있는 사람들은 비공개 글 볼 수 있도록! (권한 있는자 : 권한이 있는 사람, 루트 게시글 작성자, 관리자)
     elif request.user.profile in groups or root_author == request.user.profile or request.user.is_superuser:
-        return render(request, "detail.html", {"find_input":find_input,"areas":areas,"get_board":get_board, "board_name":board_name, "board_form":board_form, "search_board":search_board, "commentform":commentform, "detail_getComment":detail_getComment,})
+        return render(request, "detail.html", {"find_input":find_input,"areas":areas,"get_board":get_board, "board_name":board_name, "boardform":board_form, "search_board":search_board, "commentform":commentform, "detail_getComment":detail_getComment,})
     else:
         return redirect('/')
 

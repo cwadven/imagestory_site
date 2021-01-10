@@ -22,15 +22,21 @@
 {% include "notice_ajax.html" %}
 <body>
 
-<div class="container-fluid p-0" style="text-align: center;">
+<div class="container-fluid p-0">
     {% include 'navbar.html' %}
-    <p><a class="btn btn-info" href="{% url 'board:main' board_name %}">뒤로가기</a></p>
-    <form enctype="multipart/form-data" id='information_data' action='{% url "board:root_write" board_name %}' method="POST" name='information_data' onsubmit="upload_and_progress(); return false;">
-        {% csrf_token %}
-        {{boardform.as_p}}
-        <input class="btn btn-success" type='submit' value='글쓰기'/>
-        <!-- 나중에 이미지 미리보여주기 저장 -->
-    </form>
+    <div style="text-align: center;"><a class="btn btn-info" href="{% url 'board:main' board_name %}">뒤로가기</a></div>
+    <div class="container">
+        <form enctype="multipart/form-data" id='information_data' action='{% url "board:root_write" board_name %}' method="POST" name='information_data' onsubmit="upload_and_progress(); return false;">
+            {% csrf_token %}
+            <div class="m-3 text-center"><strong>📑게시글 작성</strong></div>
+            <div class="m-2">{{boardform.title}}</div>
+            <div class="m-2">{{boardform.information}}</div>
+            <div class="m-3"><b>🖼이미지 추가</b> : <br>{{boardform.image}}</div>
+            <div class="m-3 text-center">공개여부 : {{boardform.secure}}</div>
+            <div class="m-4 text-center"><input class="btn btn-success" type='submit' value='글쓰기'/></div>
+            <!-- 나중에 이미지 미리보여주기 저장 -->
+        </form>
+    </div>
     <!-- <button onclick="upload_and_progress();">이거는?</button> -->
 </div>
 
