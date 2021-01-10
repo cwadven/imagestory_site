@@ -36,8 +36,6 @@ class Profile(models.Model):
                     elif exif[orientation] == 8:
                         pilImage = pilImage.rotate(90, expand=True)
 
-                    # 오리엔테이션 있는 것은 이렇게 전에 것과 비교를 하기 떄문에 없애고 저장 큰 녀석 막기 위해서 설정?
-                    # 이렇게 pop을 해줘야 추후에 다시 사진 저장 안함
                     pilImage.thumbnail((300,300))
                     output = BytesIO()
                     pilImage.save(output, format='PNG')
