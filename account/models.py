@@ -38,7 +38,7 @@ class Profile(models.Model):
 
                     pilImage.thumbnail((300,300))
                     output = BytesIO()
-                    pilImage.save(output, format='PNG')
+                    pilImage.save(output, format='JPEG')
                     output.seek(0)
                     self.image = File(output, self.image.name)
                 except:

@@ -54,12 +54,12 @@ class Board(TimeStampedModel):
         if self.image:
             if len(str(self.image.url).split('/')) < 4:
                 pilImage = Img.open(BytesIO(self.image.read()))
-                
+
                 try:
                     for orientation in ExifTags.TAGS.keys():
                         if ExifTags.TAGS[orientation] == 'Orientation':
                             break
-                        
+
                     exif = dict(pilImage._getexif().items())
 
                     if exif[orientation] == 3:
@@ -70,7 +70,7 @@ class Board(TimeStampedModel):
                         pilImage = pilImage.rotate(90, expand=True)
 
                     output = BytesIO()
-                    pilImage.save(output, format='PNG', quality=100)
+                    pilImage.save(output, format='JPEG', quality=100)
                     output.seek(0)
                     self.image = File(output, self.image.name)
                 except:
