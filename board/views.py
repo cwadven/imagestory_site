@@ -143,19 +143,23 @@ def root_modify(request, board_name, id):
         return redirect('/')
 
     if request.method == 'POST':
-        if get_board.author == request.user.profile or root_author == request.user.profile or request.user.is_superuser:
-            if get_board.post:
-                boardform = Boardmodform(request.POST, request.FILES, instance=get_board)
+        # ajax로 변경 프로그래스 바 때문에
+        if request.is_ajax():
+            if get_board.author == request.user.profile or root_author == request.user.profile or request.user.is_superuser:
+                if get_board.post:
+                    boardform = Boardmodform(request.POST, request.FILES, instance=get_board)
+                else:
+                    boardform = Boardmodform_root(request.POST, request.FILES, instance=get_board)
+                if boardform.is_valid():
+                    if not boardform.cleaned_data.get("image") == pre_image:
+                        if request.POST.get('layer_save') == 'false':
+                            Board.objects.filter(post=get_board).delete() #만약 이미지가 변경 되거나 삭제되면 모든 그것에 관련된 레이어 게시글을 삭제하기 위해서
+                    boardform.save()
+                    return JsonResponse({'message': '/board/detail/'+get_board.category.board_name+'/'+id})
+                else:
+                    return JsonResponse({'message': 'error'})
             else:
-                boardform = Boardmodform_root(request.POST, request.FILES, instance=get_board)
-            if boardform.is_valid():
-                if not boardform.cleaned_data.get("image") == pre_image:
-                    if request.POST.get('layer_save') == None:
-                        Board.objects.filter(post=get_board).delete() #만약 이미지가 변경 되거나 삭제되면 모든 그것에 관련된 레이어 게시글을 삭제하기 위해서
-                boardform.save()
                 return redirect('/board/detail/'+get_board.category.board_name+'/'+id)
-        else:
-            return redirect('/board/detail/'+get_board.category.board_name+'/'+id)
 
     return render(request, "root_modify.html", {"board_name":get_board.category.board_name,"boardform":boardform, "get_board":get_board,})
 

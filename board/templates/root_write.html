@@ -25,12 +25,13 @@
 <div class="container-fluid p-0" style="text-align: center;">
     {% include 'navbar.html' %}
     <p><a class="btn btn-info" href="{% url 'board:main' board_name %}">뒤로가기</a></p>
-    <form enctype="multipart/form-data" id='information_data' action='{% url "board:root_write" board_name %}' method='post' name='information_data' onsubmit="upload_and_progress();">
+    <form enctype="multipart/form-data" id='information_data' action='{% url "board:root_write" board_name %}' method="POST" name='information_data' onsubmit="upload_and_progress(); return false;">
         {% csrf_token %}
         {{boardform.as_p}}
         <input class="btn btn-success" type='submit' value='글쓰기'/>
         <!-- 나중에 이미지 미리보여주기 저장 -->
     </form>
+    <!-- <button onclick="upload_and_progress();">이거는?</button> -->
 </div>
 
 <br>
@@ -44,7 +45,7 @@
     </div>
     <div class="modal-body">
         <div class="progress">
-            <div id="progress_bar" class="progress-bar progress-bar-striped active" role="progressbar"
+            <div id="progress_bar" class="progress-bar progress-bar-striped progress-bar-animated active" role="progressbar"
             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
               0%
             </div>
@@ -54,8 +55,7 @@
 </div>
 </div>
 
-
-
+<!-- 프로그래스바 보이도록 설정 -->
 <script>
     function upload_and_progress(){
         $('#staticBackdrop').modal({
@@ -107,17 +107,21 @@
                     if (e.lengthComputable){
                         const percent = e.loaded / e.total * 100;
                         progress_bar.style.width = String(parseInt(percent)) + "%";
-                        progress_bar.innerHTML = parseInt(percent);
+                        progress_bar.innerHTML = String(parseInt(percent)) + "%";
+                        if (parseInt(percent) ===  100){
+                            document.getElementById("staticBackdropLabel").innerHTML = "기다려 주세요!<br>이미지를 변환 중 입니다!<br>이미지 크기에 따라 시간이 걸립니다!";
+                            progress_bar.innerHTML = "업로드중...";
+                        }
                     }
                 });
                 return xhr
             },
             // 성공 했을 경우
             success: function(response){
+                console.log(response);
                 if (response["message"] == 'error'){
                     console.log(response["message"]);
                 } else{
-                    // console.log(response["message"]);
                     location.href=response["message"];
                 }
             },
@@ -129,7 +133,6 @@
             contentType: false,
             processData: false,
         });
-        return false;
     }
 </script>
 </body>

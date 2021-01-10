@@ -52,45 +52,40 @@ class Board(TimeStampedModel):
 
     def save(self, *args, **kwargs): #저장할때 이미지는 orientation 맞춰서 저장 또한 전부 삭제 exif정보
         if self.image:
-            pilImage = Img.open(BytesIO(self.image.read()))
-            try:
-                for orientation in ExifTags.TAGS.keys():
-                    if ExifTags.TAGS[orientation] == 'Orientation':
-                        break
-                exif = dict(pilImage._getexif().items())
+            if len(str(self.image.url).split('/')) < 4:
+                pilImage = Img.open(BytesIO(self.image.read()))
+                
+                try:
+                    for orientation in ExifTags.TAGS.keys():
+                        if ExifTags.TAGS[orientation] == 'Orientation':
+                            break
+                        
+                    exif = dict(pilImage._getexif().items())
 
-                if exif[orientation] == 3:
-                    pilImage = pilImage.rotate(180, expand=True)
-                elif exif[orientation] == 6:
-                    pilImage = pilImage.rotate(270, expand=True)
-                elif exif[orientation] == 8:
-                    pilImage = pilImage.rotate(90, expand=True)
+                    if exif[orientation] == 3:
+                        pilImage = pilImage.rotate(180, expand=True)
+                    elif exif[orientation] == 6:
+                        pilImage = pilImage.rotate(270, expand=True)
+                    elif exif[orientation] == 8:
+                        pilImage = pilImage.rotate(90, expand=True)
 
-                output = BytesIO()
-                pilImage.save(output, format='PNG', quality=100)
-                output.seek(0)
-                self.image = File(output, self.image.name)
-            except:
-                pass
+                    output = BytesIO()
+                    pilImage.save(output, format='PNG', quality=100)
+                    output.seek(0)
+                    self.image = File(output, self.image.name)
+                except:
+                    pass
             
-            # 썸네일 저장하기
-            # root 일 경우 용량 큰 것 작은 썸네일로 저장하기
-            if not self.post:
-                pilImage.thumbnail((200,200))
-                output2 = BytesIO()
-                pilImage.save(output2, format='PNG')
-                output2.seek(0)
-                self.thumbnail_image = File(output2, "thumbnail_" + self.image.name)
+                # 썸네일 저장하기
+                # root 일 경우 용량 큰 것 작은 썸네일로 저장하기
+                if not self.post and not self.thumbnail_image:
+                    pilImage.thumbnail((200,200))
+                    output2 = BytesIO()
+                    pilImage.save(output2, format='PNG')
+                    output2.seek(0)
+                    self.thumbnail_image = File(output2, "thumbnail_" + self.image.name)
 
         return super(Board, self).save(*args, **kwargs)
-
-    # def image_preview(self):
-    #     pilImage = Img.open(self.image)
-    #     pilImage.thumbnail((130,130))
-    #     output = BytesIO()
-    #     pilImage.save(output, format='JPEG', quality=100)
-    #     output.seek(0)
-    #     return File(output, self.image.name)
 
     def short_title(self):
         if len(self.title)>15:
