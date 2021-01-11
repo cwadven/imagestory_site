@@ -38,7 +38,7 @@
   <h1 class="h3 mb-3 font-weight-normal">IMAGE STORY</h1>
   {{ form.as_p }}
   <input class="btn btn-lg btn-primary btn-block" type="submit" value="로그인"/>
-  <a href="javascript:history.back();" class="btn btn-lg btn-light btn-block">📲돌아가기</a>
+  <a href="{{ request.GET.next }}" class="btn btn-lg btn-light btn-block">📲돌아가기</a>
   <input type="hidden" id ="next" name="next" value="{{ request.GET.next }}">
   {% if messages %}
     {% for message in messages %}
