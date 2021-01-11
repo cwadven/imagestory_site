@@ -137,7 +137,6 @@ class Comment(TimeStampedModel):
 class Commentalertcontent(TimeStampedModel):
     profile_name = models.ForeignKey(Profile, on_delete=models.CASCADE) # models.CharField(max_length=300)
     sender_name = models.CharField(max_length=300)
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
     content = models.ForeignKey(Comment, on_delete=models.CASCADE)
     view = models.BooleanField(default=True)
 
@@ -145,7 +144,7 @@ class Commentalertcontent(TimeStampedModel):
         ordering = ['-id', ]
 
     def __str__(self):
-        return '%s - %s - %s' % (self.profile_name.nickname, self.board, self.content)
+        return '%s - %s - %s' % (self.profile_name.nickname, self.content.main_post, self.content)
 
     def natural_key(self): #json serialize 에서 특정 내용만 가져오기 위해서 설정 원래는 pk 정보만 나오는데 이렇게 설정
         return (self.content)
