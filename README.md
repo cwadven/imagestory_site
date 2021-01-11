@@ -2,25 +2,32 @@
 
 이미지에 이야기를 남기고, 그 때의 기억을 회상 시킬 수 있는 서비스!
 
-<h3 align="center">[[홈페이지]]</h3>
+## 홈페이지
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_page.png?raw=true"/>
 </p>
 
-<h3 align="center">[[글 목록]]</h3>
+## 게시글 목록
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example2.png?raw=true"/>
 </p>
 
-<h3 align="center">[[글 예제]]</h3>
+## 게시글 예제
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example1.png?raw=true"/>
 </p>
 
-<h3 align="center">[[마이페이지]]</h3>
+## 마이페이지
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example3.png?raw=true"/>
 </p>
+
+## 데이터베이스 구조
+<p>
+<img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/db_schema.png?raw=true"/>
+</p>
+
+---
 
 ## 서비스 주소
 **주소 :**<br>
@@ -43,7 +50,7 @@
 - Service : Mariadb(Mysql), Nginx, uwsgi
 - Server : 
     - Pythonanywhere 호스팅 : <br>(2020-11-05 : Hacker/월 5천원.. DB Mysql할 경우 2만원 훌쩍 ㅠㅠ 그래서 SQLite로 유지중...)
-    - Raspberry Pi 4 : Mariadb, Nginx, uwsgi
+    - Raspberry Pi 4 : Mariadb, Nginx, uwsgi (2021-01-08)
 - 기술스택 : Django, JQuery, Bootstrap, Imagemapster(오픈라이브러리 : http://www.outsharked.com/imagemapster/)
 - 개발기간 : <br>
     - 2020년 6월 29일 ~ 2020 8월 9일 (필수 기능 완성 / 하루에 2시간 씩)
