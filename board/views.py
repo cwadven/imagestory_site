@@ -12,6 +12,8 @@ from django.db.models import Q
 
 from django.core.paginator import Paginator
 
+from django.db import transaction
+
 # Create your views here.
 def main(request, board_name):
 
@@ -154,7 +156,8 @@ def root_modify(request, board_name, id):
                     if not boardform.cleaned_data.get("image") == pre_image:
                         if request.POST.get('layer_save') == 'false':
                             Board.objects.filter(post=get_board).delete() #만약 이미지가 변경 되거나 삭제되면 모든 그것에 관련된 레이어 게시글을 삭제하기 위해서
-                    boardform.save()
+                    with transaction.atomic():        
+                        boardform.save()
                     return JsonResponse({'message': '/board/detail/'+get_board.category.board_name+'/'+id})
                 else:
                     return JsonResponse({'message': 'error'})
@@ -332,7 +335,8 @@ def mod_detail(request, board_name, id):
         if (get_board.author == request.user.profile and request.user.profile in get_root_board.group.all()) or root_author == request.user.profile:
             boardform = Boardmodform(request.POST, instance=get_board)
             if boardform.is_valid():
-                boardform.save()
+                with transaction.atomic():
+                    boardform.save()
                 return redirect('/board/detail/'+get_board.post.category.board_name+'/'+str(root_board.id))
             else:
                 return redirect('/board/detail/'+get_board.post.category.board_name+'/'+str(root_board.id))
@@ -340,16 +344,6 @@ def mod_detail(request, board_name, id):
             return redirect('/board/'+get_board.post.category.board_name+'/'+str(root_board.id))
 
     return render(request, "modify.html", {"root_board":root_board, "boardform":boardform, "get_board":get_board,})
-
-# def del_detail(request, board_name, id):
-#     if request.method == 'POST':
-#         get_board = Board.objects.get(id=id)
-#         root_board = get_board.post
-#         if get_board.author == request.user.profile:
-#             get_board.delete()
-#             return redirect('/board/detail/'+get_board.category.board_name+'/'+str(root_board.id))
-#         else:
-#             return redirect('/board/'+get_board.category.board_name+'/'+str(root_board.id))
 
 #댓글 생성
 def comment_write(request, board_name, id):
