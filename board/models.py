@@ -137,7 +137,7 @@ class Comment(TimeStampedModel):
 class Commentalertcontent(TimeStampedModel):
     profile_name = models.ForeignKey(Profile, on_delete=models.CASCADE) # models.CharField(max_length=300)
     sender_name = models.CharField(max_length=300)
-    content = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    content = models.OneToOneField(Comment, on_delete=models.CASCADE)
     view = models.BooleanField(default=True)
 
     class Meta:
