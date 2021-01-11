@@ -24,10 +24,15 @@
 
 ## 서비스 주소
 **주소 :**<br>
-https://www.imagestory.shop/
-<br><br>
+
+- 호스팅 사이트 : https://www.imagestory.shop/
+- Raspberry Pi 4 서버 구축 : https://imstory.shop/
+
+
 **이미지스토리 서비스 설명 및 튜토리얼 :**<br>
-https://www.imagestory.shop/tutorial/
+
+- https://www.imagestory.shop/tutorial/
+- https://imstory.shop/tutorial/
 
 ## 개발자
 
@@ -35,9 +40,11 @@ https://www.imagestory.shop/tutorial/
 
 - Github : https://github.com/cwadven
 - Backend : Django
-- Service : SQLite, Pythonanywhere
-- Server : Pythonanywhere 호스팅<br>(2020-11-05 : Hacker/월 5천원.. DB Mysql할 경우 2만원 훌쩍 ㅠㅠ 그래서 SQLite로 유지중...)
-- 기술스택 : Django, JQuery, Imagemapster(오픈라이브러리 : http://www.outsharked.com/imagemapster/)
+- Service : Mariadb(Mysql), Nginx, uwsgi
+- Server : 
+    - Pythonanywhere 호스팅 : <br>(2020-11-05 : Hacker/월 5천원.. DB Mysql할 경우 2만원 훌쩍 ㅠㅠ 그래서 SQLite로 유지중...)
+    - Raspberry Pi 4 : Mariadb, Nginx, uwsgi
+- 기술스택 : Django, JQuery, Bootstrap, Imagemapster(오픈라이브러리 : http://www.outsharked.com/imagemapster/)
 - 개발기간 : <br>
     - 2020년 6월 29일 ~ 2020 8월 9일 (필수 기능 완성 / 하루에 2시간 씩)
     - 2020년 8월 9일 ~ 지금 (필요에 따른 유지보수)
