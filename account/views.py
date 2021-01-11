@@ -199,8 +199,8 @@ def check_alert_board(request, alert_id):
         check_alert.update(view=False)
     else:
         check_alert = get_object_or_404(Commentalertcontent, profile_name=request.user.profile, id=alert_id)
-        board_id = check_alert.board.id
-        board_category = check_alert.board.category.board_name
+        board_id = check_alert.content.main_post.id
+        board_category = check_alert.content.main_post.category.board_name
         check_alert.view = False
         check_alert.save()
         return redirect("/board/detail/"+board_category+"/"+str(board_id))
