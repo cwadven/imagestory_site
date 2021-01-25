@@ -185,6 +185,26 @@
                 }
             });
 
+            // 이미지 크기가 동적이여도 비율로 크기 조절하기 위해서 설정
+            window.addEventListener('orientationchange', function(e){
+                // 사이즈가 바꿔지면 적용
+                if (document.getElementById('setting').value == "영역추가하기") {
+                    scaleWidth = real_img_size.width / img.clientWidth; 
+                    scaleHeight = real_img_size.height / img.clientHeight; 
+                    // 바뀌어진 width를 기준으로 canvas도 크기를 조정
+                    canvas.width = img.clientWidth;
+                    canvas.height = img.clientHeight;
+                    // 캔버스 크기 재조정
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                }
+                // 만약 창의 크기를 변경 했을 경우 이미지 다시 그리도록 설정
+                if (e.target.innerWidth < 800) {
+                    $('img').mapster('resize',e.target.innerWidth-75, 0, 0);
+                } else {
+                    $('img').mapster('resize',canvas.width,canvas.height,0);
+                }
+            });
+
             canvas.addEventListener("mousemove", function (e) {
                 findxy('move', e)
             }, false);
