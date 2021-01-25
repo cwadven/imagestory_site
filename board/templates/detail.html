@@ -41,7 +41,7 @@
             max-width: 100%;
         }
 
-        @media (min-width:800px) and (max-width:1800px){
+        @media (min-width:820px) and (max-width:1800px){
             #can_img{
                 max-width: 800px;
             }
@@ -162,8 +162,8 @@
             // 이미지 크기가 동적이여도 비율로 크기 조절하기 위해서 설정
             window.addEventListener("resize", function(e){
                 // 만약 창의 크기를 변경 했을 경우 이미지 다시 그리도록 설정
-                if (e.target.innerWidth < 800) {
-                    $('img').mapster('resize',e.target.innerWidth-75, 0, 0);
+                if (e.target.innerWidth < 820) {
+                    $('img').mapster('resize',e.target.innerWidth-40, 0, 0);
                 } else {
                     $('img').mapster('resize',canvas.width,canvas.height,0);
                 }
@@ -184,7 +184,7 @@
                 // 만약 창의 크기를 변경 했을 경우 이미지 다시 그리도록 설정
                 // 오리엔 테이션 바꾸면 이거는 height로 보드라...
                 if (e.target.innerHeight < img.clientWidth) {
-                    $('img').mapster('resize',e.target.innerHeight-75, 0, 0);
+                    $('img').mapster('resize',e.target.innerHeight-40, 0, 0);
                 } else {
                     $('img').mapster('resize',canvas.width,canvas.height,0);
                 }
