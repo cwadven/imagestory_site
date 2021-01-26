@@ -168,15 +168,33 @@
                     $('img').mapster('resize',canvas.width,canvas.height,0);
                 }
                 // 사이즈가 바꿔지면 적용
-                if (document.getElementById('setting').value == "영역추가하기") {
-                    scaleWidth = real_img_size.width / img.clientWidth; 
-                    scaleHeight = real_img_size.height / img.clientHeight; 
-                    // 바뀌어진 width를 기준으로 canvas도 크기를 조정
-                    canvas.width = img.clientWidth;
-                    canvas.height = img.clientHeight;
-                    // 캔버스 크기 재조정
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                }
+                {% if user.is_authenticated %}
+                    {% if get_board.post_root.author %}
+                        {% if user.profile in get_board.post_root.group.all or get_board.post_root.author == user.profile %}
+                        if (document.getElementById('setting').value == "영역추가하기") {
+                            scaleWidth = real_img_size.width / img.clientWidth; 
+                            scaleHeight = real_img_size.height / img.clientHeight; 
+                            // 바뀌어진 width를 기준으로 canvas도 크기를 조정
+                            canvas.width = img.clientWidth;
+                            canvas.height = img.clientHeight;
+                            // 캔버스 크기 재조정
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        }
+                        {% endif %}
+                    {% else %}
+                    {% if user.profile in get_board.group.all or get_board.author == user.profile %}
+                        if (document.getElementById('setting').value == "영역추가하기") {
+                            scaleWidth = real_img_size.width / img.clientWidth; 
+                            scaleHeight = real_img_size.height / img.clientHeight; 
+                            // 바뀌어진 width를 기준으로 canvas도 크기를 조정
+                            canvas.width = img.clientWidth;
+                            canvas.height = img.clientHeight;
+                            // 캔버스 크기 재조정
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        }
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
             });
 
             // 모바일에서 오리엔 테이션
@@ -189,15 +207,33 @@
                     $('img').mapster('resize',canvas.width,canvas.height,0);
                 }
                 // 사이즈가 바꿔지면 적용
-                if (document.getElementById('setting').value == "영역추가하기") {
-                    scaleWidth = real_img_size.width / img.clientWidth; 
-                    scaleHeight = real_img_size.height / img.clientHeight; 
-                    // 바뀌어진 width를 기준으로 canvas도 크기를 조정
-                    canvas.width = img.clientWidth;
-                    canvas.height = img.clientHeight;
-                    // 캔버스 크기 재조정
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                }
+                {% if user.is_authenticated %}
+                    {% if get_board.post_root.author %}
+                        {% if user.profile in get_board.post_root.group.all or get_board.post_root.author == user.profile %}
+                        if (document.getElementById('setting').value == "영역추가하기") {
+                            scaleWidth = real_img_size.width / img.clientWidth; 
+                            scaleHeight = real_img_size.height / img.clientHeight; 
+                            // 바뀌어진 width를 기준으로 canvas도 크기를 조정
+                            canvas.width = img.clientWidth;
+                            canvas.height = img.clientHeight;
+                            // 캔버스 크기 재조정
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        }
+                        {% endif %}
+                    {% else %}
+                    {% if user.profile in get_board.group.all or get_board.author == user.profile %}
+                        if (document.getElementById('setting').value == "영역추가하기") {
+                            scaleWidth = real_img_size.width / img.clientWidth; 
+                            scaleHeight = real_img_size.height / img.clientHeight; 
+                            // 바뀌어진 width를 기준으로 canvas도 크기를 조정
+                            canvas.width = img.clientWidth;
+                            canvas.height = img.clientHeight;
+                            // 캔버스 크기 재조정
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        }
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
             });
 
             canvas.addEventListener("mousemove", function (e) {
