@@ -39,18 +39,21 @@ def main(request, board_name):
     #제목, 내용, 글쓴이 (콤보상자 이용)
     search_info = request.GET.get("search_option", "")
 
-    #페이지 리쿼스트가 있을 경우
-    #처음에 search를 하면 search가 남을 것이다 하지만 그다음 page를 누르면 페이지가 있을 것이다
-    #결국 어차피 한번 search가 session값에 저장이 된다!
-    #게시글 나가기 했을 때도 값이 남아 있어야 하나?? 추후에 생각
-    if request.GET.get('page') or search:
-        if search:
-            request.session['search'] = search
-            request.session['search_info'] = search_info
-    else:
-        if request.session.get('search',''):
-            del request.session['search']
-            del request.session['search_info']
+    # 다른 게시판을 갈 경우 및 게시판 자체를 클릭할 경우
+    if not search_info and not request.GET.get('page') and request.session.get('search'):
+        del request.session['search']
+        del request.session['search_info']
+        if request.session.get('page'):
+            del request.session['page']
+    
+    # 게시판을 누를 경우 검색하면 페이지 1로 초기화
+    if search_info and request.session.get('page') and not request.GET.get('page'):
+        del request.session['page']
+
+    # 검색을 했을 경우
+    if search_info:
+        request.session['search'] = search
+        request.session['search_info'] = search_info
 
     # root 게시글만 가져오기 (secure은 안보이게 가져오기 안그러면 page를 10으로 나누는데 비밀이 있을 경우 한 페이지에 아무것도 없을 수 있다)
     all_board = Board.objects.filter(post=None, category__board_name=board_name, secure='public')

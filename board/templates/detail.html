@@ -699,7 +699,7 @@ function delete_root(){
     {% if user.is_authenticated %}
     <span title="북마크" style="cursor: pointer;" onclick="ajax_board_bookmark('{{get_board.id}}', this)">{{get_board|board_bookmark:request.user.username|safe}}</span>
     {% endif %}
-    <a class="btn btn-dark" href="{% url 'board:main' get_board.category.board_name %}">📲게시글나가기</a>
+    <a class="btn btn-dark" href="{% url 'board:main' get_board.category.board_name %}{% if request.session.search %}{% if request.session.page %}?page={{request.session.page}}&{% else %}?{% endif %}search_option={{request.session.search_info}}&search={{request.session.search}}{% endif %}">📲게시글나가기</a>
 </div>
 </div>
 {% else %}
@@ -707,7 +707,7 @@ function delete_root(){
     {% if user.is_authenticated %}
     <span title="북마크" style="cursor: pointer;" onclick="ajax_board_bookmark('{{get_board.id}}', this)">{{get_board|board_bookmark:request.user.username|safe}}</span>
     {% endif %}
-    <a class="btn btn-dark" href="{% url 'board:main' get_board.category.board_name %}">📲게시글나가기</a>
+    <a class="btn btn-dark" href="{% url 'board:main' get_board.category.board_name %}{% if request.session.search %}{% if request.session.page %}?page={{request.session.page}}&{% else %}?{% endif %}search_option={{request.session.search_info}}&search={{request.session.search}}{% endif %}">📲게시글나가기</a>
 </div>
 {% endif %}
 <hr style="border-style: dashed;">
