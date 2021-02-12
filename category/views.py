@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Category
+from board.models import Board
 from .forms import Categoryform
 from django.db.models import Count
 from django.db.models import Case, When
@@ -15,7 +16,8 @@ def show_category(request):
                 then='board'
             ),
         ))).all()
-    return render(request, "show_category.html", {"all_category":all_category,"categoryform":categoryform,})
+    new_boards = Board.objects.filter(post_root__isnull=True).exclude(thumbnail_image='').order_by('-created_at')[:6]
+    return render(request, "home.html", {"all_category":all_category,"categoryform":categoryform, "new_boards":new_boards,})
 
 def make_category(request):
     if request.user.is_superuser:

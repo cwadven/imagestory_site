@@ -27,6 +27,8 @@
     <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.js"></script>
+    <!-- Awesome Font -->
+    <script src="https://kit.fontawesome.com/338cbb2a97.js" crossorigin="anonymous"></script>
 
     <script data-ad-client="ca-pub-1987584597836949" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
@@ -90,6 +92,28 @@
      
     {% endfor %}
     </div>
+    <hr>
+    <div class="container-md p-0">
+      <div class="d-flex">
+        <div><i class="fa fa-star font-red m-3" style="color:#ffc107"></i>최신게시글</div>
+      </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+      {% for new_board in new_boards %}
+      <div class="col mb-2">
+        <a style="color: black;text-decoration:none;" href="{% url 'board:detail' new_board.category new_board.id %}">
+        <div class="card">
+          <img src="{{new_board.thumbnail_image.url}}" class="card-img-top img-thumbnail rounded" style="height:250px;" alt="{{new_board.short_title}}">
+          <div class="card-body p-3">
+            <h5 class="card-title">{{new_board.title}}</h5>
+            <p class="card-text" style="overflow: hidden;white-space:nowrap;">{{new_board.short_information}}</p>
+            <div class="text-secondary text-right">{{new_board.category.showing_name}}</div>
+          </div>
+        </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 <footer class="footer mt-auto py-3 bg-light">
   <div class="container" style="text-align: center;">
