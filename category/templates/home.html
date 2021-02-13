@@ -1,7 +1,7 @@
 {% load information_extras %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,9 +97,9 @@
       <div class="d-flex">
         <div><i class="fa fa-star font-red m-3" style="color:#ffc107"></i>최신게시글</div>
       </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+    <div style="margin-right:0px;margin-left:0px;" class="row row-cols-1 row-cols-md-3 p-3">
       {% for new_board in new_boards %}
-      <div class="col mb-2">
+      <div class="col mb-3">
         <a style="color: black;text-decoration:none;" href="{% url 'board:detail' new_board.category new_board.id %}">
         <div class="card">
           <img src="{{new_board.thumbnail_image.url}}" class="card-img-top img-thumbnail rounded" style="height:250px;" alt="{{new_board.short_title}}">
