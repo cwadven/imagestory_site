@@ -25,7 +25,7 @@ SECRET_KEY = 'mmr!k4ot+a8w0zd2ew)-pjruzb@b5#x$im(wa9*tftd($n#ho*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["www.imagestory.shop"]
+ALLOWED_HOSTS = ["imstory.shop"]
 
 
 # Application definition
@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'category',
     'account',
     'tutorial',
+    'websocket',
+    'channels',
 ]
 
 SITE_ID = 1
@@ -74,7 +76,19 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "imagesite.routing.application"
+#channel_layers 추가
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 WSGI_APPLICATION = 'imagesite.wsgi.application'
+
 
 
 # Database
