@@ -1,0 +1,64 @@
+{% if request.user.is_authenticated %}
+
+<!-- Position it -->
+<!-- 쌓이게 만들어보기 -->
+<div class="toast-container" style="position: fixed; top: 0; right: 0; z-index: 100;">
+<!-- Then put toasts within -->
+</div>
+
+{% endif %}
+
+<!-- 로그인 했을 경우만 보여주기 -->
+{% if request.user.is_authenticated %}
+<script>
+    // 토스트 알림 뜨기로 보여주기
+    toast_message = (message, sender, board_title) => {
+        let html = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mr-auto"><b>${sender}</b>님의 댓글</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                <div id="toast-id" style="overflow: hidden;white-space:nowrap;text-overflow:ellipsis;"><b>${board_title} 게시글 알림</b><br>내용 : ${message}</div>
+            </div>
+        </div>`;
+        $('.toast-container').append(html);
+        // a 태그용 게시글 위치 id, url 까지
+        // 누가 작성했는지
+        $('.toast').toast({delay: 5000});
+        $('.toast').toast('show');
+
+        $('.toast').on('hidden.bs.toast', function () {
+            $('.toast').remove();
+        });
+    }
+    
+    // 나중에 보안적으로 수정
+    username = '{{request.user.username}}';
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/alarm/'+username);
+
+    chatSocket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        let message = data['message'];
+        let sender = data['sender'];
+        let board_title = data['board_title'];
+        // 여러 메시지 매개변수로 받기
+        toast_message(message, sender, board_title);
+        // 알림 아이콘 이미지 변신
+        $('#alarm_id').html('<g><path d="m292.57 36.57v47.423h-73.14v-47.423c0-20.2 16.37-36.57 36.57-36.57 10.1 0 19.24 4.09 25.86 10.71s10.71 15.76 10.71 25.86z" fill="#feb920"/><path d="m292.57 36.57v47.423h-36.57v-83.993c10.1 0 19.24 4.09 25.86 10.71s10.71 15.76 10.71 25.86z" fill="#fc9b28"/><path d="m292.57 427.676v47.754c0 10.1-4.09 19.24-10.71 25.86s-15.76 10.71-25.86 10.71c-20.2 0-36.57-16.37-36.57-36.57v-47.754z" fill="#ffcf67"/><path d="m292.57 427.676v47.754c0 10.1-4.09 19.24-10.71 25.86s-15.76 10.71-25.86 10.71v-84.324z" fill="#feb920"/><path d="m457.14 375.716-16.01 28h-370.26l-16.01-28c40.39 0 73.14-32.74 73.14-73.14v-148.052c0-50.47 40.91-91.39 91.38-91.39h73.24c50.47 0 91.38 40.92 91.38 91.39v148.053c0 40.399 32.75 73.139 73.14 73.139z" fill="#ffcf67"/><path d="m457.14 375.716-16.01 28h-185.13v-340.582h36.62c50.47 0 91.38 40.92 91.38 91.39v148.053c0 40.399 32.75 73.139 73.14 73.139z" fill="#feb920"/><path d="m54.86 375.716h402.28v73.15h-402.28z" fill="#feb920"/><path d="m256 375.716h201.14v73.15h-201.14z" fill="#fc9b28"/></g>');
+    };
+
+    chatSocket.onopen=function (e) {
+        console.log("연결 성공");
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+</script>
+{% endif %}
