@@ -22,7 +22,12 @@
     }
 
     .information{
-            word-break:break-word;
+        word-break:break-word;
+        background: white;
+        padding-top: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border-style: ridge;
     }
 
     section {
@@ -162,10 +167,11 @@
             // 이미지 크기가 동적이여도 비율로 크기 조절하기 위해서 설정
             window.addEventListener("resize", function(e){
                 // 만약 창의 크기를 변경 했을 경우 이미지 다시 그리도록 설정
-                if (e.target.innerWidth < 820) {
+                // max-widht 800으로 고정
+                if (e.target.innerWidth < 800) {
                     $('img').mapster('resize',e.target.innerWidth-40, 0, 0);
                 } else {
-                    $('img').mapster('resize',canvas.width,canvas.height,0);
+                    $('img').mapster('resize',800/canvas.width * canvas.weight,800/canvas.height * canvas.height,0);
                 }
                 // 사이즈가 바꿔지면 적용
                 {% if user.is_authenticated %}
@@ -780,8 +786,8 @@ function delete_root(){
         {% endif %}
     {% endif %}
 
-    <h1 class="text-center">{{get_board.title}}</h1>
-    <div class="information text-center">{{get_board.information|linebreaks}}</div>
+    <h1 style="margin-top: 10px;" class="text-center">{{get_board.title}}</h1>
+    <div class="container-lg information text-center">{{get_board.information|linebreaks}}</div>
 
 
 
