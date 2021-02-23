@@ -8,22 +8,22 @@
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_page.png?raw=true"/>
 </p>
-
+<hr>
 ## 게시글 목록
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example2.png?raw=true"/>
 </p>
-
+<hr>
 ## 게시글 예제
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example1.png?raw=true"/>
 </p>
-
+<hr>
 ## 마이페이지
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example3.png?raw=true"/>
 </p>
-
+<hr>
 ## 데이터베이스 구조
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/db_schema.png?raw=true"/>
@@ -34,13 +34,11 @@
 ## 서비스 주소
 **주소 :**<br>
 
-- 호스팅 사이트 : https://www.imagestory.shop/
 - Raspberry Pi 4 서버 구축 : https://imstory.shop/
 
 
 **이미지스토리 서비스 설명 및 튜토리얼 :**<br>
 
-- https://www.imagestory.shop/tutorial/
 - https://imstory.shop/tutorial/
 
 ## 개발자
@@ -53,6 +51,7 @@
 - Server : 
     - Pythonanywhere 호스팅 : <br>(2020-11-05 : Hacker/월 5천원.. DB Mysql할 경우 2만원 훌쩍 ㅠㅠ 그래서 SQLite로 유지중...)
     - Raspberry Pi 4 : Mariadb, Nginx, uwsgi (2021-01-08)
+    - Pythonanywhere 호스팅 종료 : <br>(2021-02-15 : 비효율적이라고 판단)
 - 기술스택 : Django, JQuery, Bootstrap, Imagemapster(오픈라이브러리 : http://www.outsharked.com/imagemapster/)
 - 개발기간 : <br>
     - 2020년 6월 29일 ~ 2020 8월 9일 (필수 기능 완성 / 하루에 2시간 씩)
