@@ -9,21 +9,25 @@
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_page.png?raw=true"/>
 </p>
 <hr>
+
 ## 게시글 목록
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example2.png?raw=true"/>
 </p>
 <hr>
+
 ## 게시글 예제
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example1.png?raw=true"/>
 </p>
 <hr>
+
 ## 마이페이지
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/imagestory_example3.png?raw=true"/>
 </p>
 <hr>
+
 ## 데이터베이스 구조
 <p>
 <img alt="imagestory" src="https://github.com/cwadven/imagestory_site/blob/master/asset/db_schema.png?raw=true"/>
