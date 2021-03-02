@@ -1,4 +1,4 @@
-<h1 align="center">이미지스토리 (IMAGESTORY)[현재 사용중 인 실 서비스용은 PRIVATE화] 🖼<br></h1>
+<h1 align="center">이미지스토리 (IMAGESTORY) 🖼<br>[현재 사용중 인 실 서비스용은 PRIVATE화]</h1>
 
 <h3>사이트 설명 :</h3>
 
